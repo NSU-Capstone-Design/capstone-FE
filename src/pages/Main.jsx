@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import Counter from '../components/Counter';
 import TodosContainer from '../containers/TodosContainer';
+import LoginBox from '../containers/account/LoginBox';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -18,8 +19,7 @@ const Main = () => {
   return (
     <div className={classes.mainContainer}>
       <div>메인페이지</div>
-      <Counter />
-      <TodosContainer />
+      <LoginBox />
     </div>
   );
 };
