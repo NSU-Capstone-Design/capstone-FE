@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { login } from '../../reducers/account';
+import { login } from '../../reducers/account/login';
 
 const LoginBox = () => {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+  const [id, setId] = useState('admin');
+  const [password, setPassword] = useState('sm46564323');
   const dispatch = useDispatch();
+  const user_id = useSelector((state) => state);
   const idInputHandler = (e) => setId(e.target.value);
   const pwInputHandler = (e) => setPassword(e.target.value);
   const loginHandler = () => {
@@ -14,6 +15,9 @@ const LoginBox = () => {
       password: password,
     };
     dispatch(login(data));
+  };
+  const check = () => {
+    console.log(user_id);
   };
   return (
     <div>
@@ -28,6 +32,9 @@ const LoginBox = () => {
       />
       <div>
         <button onClick={loginHandler}>login</button>
+      </div>
+      <div>
+        <button onClick={check}>check</button>
       </div>
     </div>
   );

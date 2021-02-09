@@ -1,8 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
-import Counter from '../components/Counter';
-import TodosContainer from '../containers/TodosContainer';
 import LoginBox from '../containers/account/LoginBox';
+import SignUpBox from '../containers/account/SingUpBox';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -20,6 +19,10 @@ const Main = () => {
     <div className={classes.mainContainer}>
       <div>메인페이지</div>
       <LoginBox />
+      <div>---------------------</div>
+      <div>-------회원가입--------</div>
+      <div>---------------------</div>
+      <SignUpBox />
     </div>
   );
 };
