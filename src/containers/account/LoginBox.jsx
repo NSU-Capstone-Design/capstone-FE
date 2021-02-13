@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login } from '../../reducers/account/login';
 
-const LoginBox = () => {
+const LoginBox = ({ status }) => {
   const [id, setId] = useState('admin');
   const [password, setPassword] = useState('sm46564323');
   const dispatch = useDispatch();
@@ -32,6 +32,7 @@ const LoginBox = () => {
       />
       <div>
         <button onClick={loginHandler}>login</button>
+        <span>{status}</span>
       </div>
       <div>
         <button onClick={check}>check</button>
