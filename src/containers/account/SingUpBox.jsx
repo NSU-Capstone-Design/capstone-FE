@@ -13,7 +13,7 @@ const SignUpBox = () => {
   const idInputHandler = (e) => setId(e.target.value);
   const pwInputHandler = (e) => setPassword(e.target.value);
   const emailInputHandler = (e) => setEmail(e.target.value);
-  const nicknameInputHandler = (e) => setEmail(e.target.value);
+  const nicknameInputHandler = (e) => setNickname(e.target.value);
   const signUpHandler = () => {
     const data = {
       user_id: id,

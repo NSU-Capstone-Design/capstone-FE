@@ -3,18 +3,20 @@ import { login_api } from '../../api/account';
 const LOGIN = 'account/LOGIN';
 const WRONG_PW = 'account/WRONG_PW';
 const CONFLICT = 'account/CONFLICT';
+const SUCCESS_TOKEN = 'account/SUCCESS_TOKEN';
 
 export const login = (data) => async (dispatch) => {
   login_api(data)
     .then((res) => {
       dispatch({
         type: LOGIN,
-        user_id: res.user_id,
-        token: res.token,
+        access: res.access,
+        refresh: res.refresh,
         status: 'success',
       });
     })
     .catch((err) => {
+      console.error(err);
       const error_code = err.response.status;
       if (error_code == 401) {
         dispatch({
@@ -29,18 +31,21 @@ export const login = (data) => async (dispatch) => {
       }
     });
 };
+export const success_check = () => ({
+  type: SUCCESS_TOKEN,
+});
+
 export const logout = () => ({
   type: 'LOGOUT',
 });
 const initialState = {
-  user_id: '',
-  status: window.localStorage.getItem('token') ? 'success' : '',
+  status: '',
 };
-
 export default function (state = initialState, action) {
   switch (action.type) {
     case LOGIN:
-      window.localStorage.setItem('token', action.token);
+      window.localStorage.setItem('access', action.access);
+      window.localStorage.setItem('refresh', action.refresh);
       return {
         user_id: action.user_id,
         status: action.status,
@@ -54,6 +59,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         status: action.status,
+      };
+    case SUCCESS_TOKEN:
+      return {
+        ...state,
+        status: 'success',
       };
     default:
       return initialState;

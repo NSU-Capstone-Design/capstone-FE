@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core';
 import LoginBox from '../containers/account/LoginBox';
 import SignUpBox from '../containers/account/SingUpBox';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../reducers/account/login';
+import { logout, success_check } from '../reducers/account/login';
+import { check_token } from '../api/account';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -19,8 +20,15 @@ const Main = () => {
   const classes = useStyle();
   const loginState = useSelector((state) => state.account.status);
   const dispatch = useDispatch();
+  useEffect(async () => {
+    const res = await check_token();
+    if (res === 200) {
+      dispatch(success_check());
+    }
+  }, []);
   const logoutHandler = () => {
-    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('access');
+    window.localStorage.removeItem('refresh');
     dispatch(logout());
   };
   console.log(loginState);
@@ -29,6 +37,7 @@ const Main = () => {
       <div>
         <div>로그인 성공</div>
         <button onClick={logoutHandler}>logout</button>
+        <button onClick={check_token}>check</button>
       </div>
     );
   } else {
