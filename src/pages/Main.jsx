@@ -4,7 +4,7 @@ import LoginBox from '../containers/account/LoginBox';
 import SignUpBox from '../containers/account/SingUpBox';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, success_check } from '../reducers/account/login';
-import { check_token } from '../api/account';
+import { check_token, test } from '../api/account';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -24,6 +24,8 @@ const Main = () => {
     const res = await check_token();
     if (res === 200) {
       dispatch(success_check());
+    } else {
+      console.log('로그인 창으로'); // 또는 에러 안내
     }
   }, []);
   const logoutHandler = () => {
@@ -38,6 +40,7 @@ const Main = () => {
         <div>로그인 성공</div>
         <button onClick={logoutHandler}>logout</button>
         <button onClick={check_token}>check</button>
+        <button onClick={test}>test</button>
       </div>
     );
   } else {
