@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core';
 import LoginBox from '../containers/account/LoginBox';
 import SignUpBox from '../containers/account/SingUpBox';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, success_check } from '../reducers/account/login';
-import { check_token, test } from '../api/account';
+import { logout, success_check } from '../reducers/account/authenticate';
+import { check_token } from '../api/account';
+import LoginSuccess from '../components/main/LoginSuccess';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -28,21 +29,9 @@ const Main = () => {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
   }, []);
-  const logoutHandler = () => {
-    window.localStorage.removeItem('access');
-    window.localStorage.removeItem('refresh');
-    dispatch(logout());
-  };
   console.log(loginState);
   if (loginState === 'success') {
-    return (
-      <div>
-        <div>로그인 성공</div>
-        <button onClick={logoutHandler}>logout</button>
-        <button onClick={check_token}>check</button>
-        <button onClick={test}>test</button>
-      </div>
-    );
+    return <LoginSuccess />;
   } else {
     return (
       <div className={classes.mainContainer}>

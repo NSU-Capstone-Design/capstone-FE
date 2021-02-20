@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import todos from './todos';
-import account from './account/login';
+import account from './account/authenticate';
 
 const rootReducer = combineReducers({
   todos,

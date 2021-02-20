@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { login } from '../../reducers/account/login';
+import { login } from '../../reducers/account/authenticate';
 
 const LoginBox = ({ status }) => {
   const [id, setId] = useState('admin');
