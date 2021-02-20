@@ -16,8 +16,8 @@ const useStyle = makeStyles({
 
 const Header = () => {
   const classes = useStyle();
+  const dispatch = useDispatch();
   const logoutHandler = () => {
-    const dispatch = useDispatch();
     window.localStorage.removeItem('access');
     window.localStorage.removeItem('refresh');
     dispatch(logout());

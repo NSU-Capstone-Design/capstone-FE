@@ -1,18 +1,5 @@
-import axios from 'axios';
+import { baseApi, authenticatedApi } from './axiosApi';
 
-const BASE_URL = 'http://127.0.0.1:8000/';
-const baseApi = axios.create({
-  baseURL: BASE_URL,
-  headers: { 'Content-Type': 'application/json' },
-});
-const authenticatedApi = (token) =>
-  axios.create({
-    baseURL: BASE_URL,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
 export const login_api = async (data) => {
   const res = await baseApi.post('users/token/', {
     user_id: data.user_id,
@@ -84,4 +71,17 @@ export const test = () => {
     .catch((err) => {
       console.error(err);
     });
+};
+
+export const myInfo = async () => {
+  let data = {};
+  await authenticatedApi(window.localStorage.getItem('access'))
+    .get('/users/myInfo/')
+    .then((res) => {
+      data = res.data[0];
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  return data;
 };

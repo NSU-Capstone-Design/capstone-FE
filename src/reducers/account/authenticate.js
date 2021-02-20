@@ -8,6 +8,7 @@ const SUCCESS_TOKEN = 'account/SUCCESS_TOKEN';
 export const login = (data) => async (dispatch) => {
   login_api(data)
     .then((res) => {
+      console.log(res);
       dispatch({
         type: LOGIN,
         access: res.access,
@@ -47,7 +48,6 @@ export default function (state = initialState, action) {
       window.localStorage.setItem('access', action.access);
       window.localStorage.setItem('refresh', action.refresh);
       return {
-        user_id: action.user_id,
         status: action.status,
       };
     case WRONG_PW:
