@@ -12,7 +12,6 @@ const Mypage = () => {
   });
   useEffect(async () => {
     const data = await myInfo();
-    console.log('hi');
     console.log(data);
     setUserInfo(data);
   }, []);
