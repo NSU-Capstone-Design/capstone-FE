@@ -1,5 +1,7 @@
 import { baseApi, authenticatedApi } from './axiosApi';
 
+const FRONT_BASE_URL = 'http://127.0.0.1:3000';
+
 export const login_api = async (data) => {
   const res = await baseApi.post('users/token/', {
     user_id: data.user_id,
@@ -57,7 +59,6 @@ export const check_token = () => {
               console.log('로그인 페이지로 리다이렉트');
             });
         }
-        return 200;
       });
   }
 };
@@ -80,8 +81,43 @@ export const myInfo = async () => {
     .then((res) => {
       data = res.data[0];
     })
-    .catch((err) => {
-      console.error(err);
+    .catch(async (err) => {
+      if (err.request.status === 401) {
+        const accessToken = await refreshAccessToken();
+        window.localStorage.setItem('access', accessToken);
+        await authenticatedApi(window.localStorage.getItem('access'))
+          .get('/users/myInfo/')
+          .then((res) => {
+            data = res.data[0];
+          })
+          .catch((err) => {
+            console.log('이건 백엔드가 잘못했따');
+            window.location.href = FRONT_BASE_URL + '/login';
+          });
+      } else {
+        console.log('이또한 백엔드의 잘못이다');
+        window.location.href = FRONT_BASE_URL + '/login';
+      }
     });
   return data;
+};
+
+export const refreshAccessToken = async () => {
+  const refreshToken = window.localStorage.getItem('refresh');
+  if (refreshToken === '') {
+    window.location.href = FRONT_BASE_URL + '/login';
+  } else {
+    let token;
+    await baseApi
+      .post('/users/token/refresh/', { refresh: refreshToken })
+      .then((res) => {
+        token = res.data.access;
+      })
+      .catch((err) => {
+        window.localStorage.removeItem('access');
+        window.localStorage.removeItem('refresh');
+        window.location.href = FRONT_BASE_URL + '/login';
+      });
+    return token;
+  }
 };
