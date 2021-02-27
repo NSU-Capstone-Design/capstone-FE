@@ -20,49 +20,42 @@ export const sign_up_api = async (data) => {
   return res.data;
 };
 
-export const check_token = () => {
+export const check_token = async () => {
   const token = window.localStorage.getItem('access');
-  if (token !== '') {
-    return baseApi
+  console.log(token);
+  if (token !== undefined) {
+    let result;
+    await baseApi
       .post('/users/token/verify/', {
         token,
       })
       .then((res) => {
         console.log('pass' + res.status);
-        return res.status;
+        result = res.status;
       })
-      .catch((err) => {
-        console.log(err.response.status);
+      .catch(async (err) => {
+        console.log(err.response.status + 'here');
+
         if (err.response.status == 401) {
           // refresh 토큰으로 access토큰 받기
-          baseApi
-            .post('/users/token/refresh/', {
-              refresh: window.localStorage.getItem('refresh'),
+          const accesToken = await refreshAccessToken();
+          window.localStorage.setItem('access', accesToken);
+          await baseApi
+            .post('/users/token/verify/', {
+              token: accesToken,
             })
             .then((res) => {
-              console.log(res);
-              window.localStorage.setItem('access', res.data.access);
-              // 다시 access 토큰으로 요청
-              baseApi
-                .post('/users/token/verify/', {
-                  token: window.localStorage.getItem('access'),
-                })
-                .then((res) => {
-                  console.log('두번째 요청 ' + res.status);
-                  return res.status;
-                })
-                .catch((e) => {
-                  window.alert('개발자에게 문의 부탁 드립니다.');
-                  window.localStorage.removeItem('access');
-                  window.localStorage.removeItem('refresh');
-                  window.location.href = FRONT_BASE_URL + '/login';
-                });
+              result = res.status;
             })
-            .catch((e) => {
-              console.log('로그인 페이지로 리다이렉트');
+            .catch(() => {
+              window.alert('개발자에게 문의 부탁 드립니다.');
+              window.localStorage.removeItem('access');
+              window.localStorage.removeItem('refresh');
+              window.location.href = FRONT_BASE_URL + '/login';
             });
         }
       });
+    return result;
   }
 };
 

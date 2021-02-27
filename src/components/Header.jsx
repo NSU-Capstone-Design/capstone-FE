@@ -10,8 +10,19 @@ const useStyle = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '1024px',
     height: '60px',
+  },
+  headerWrap: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
     border: '1px solid black',
+  },
+  subNav: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '350px',
   },
 });
 
@@ -32,24 +43,37 @@ const Header = () => {
   }, []);
   if (loginState === 'success')
     return (
-      <div>
-        <div>Header</div>
+      <div className={classes.headerWrap}>
         <div className={classes.headerContainer}>
-          <div>logo</div>
-          <Link to="/mypage">계정 관리</Link>
-          <Link to="/login" onClick={logoutHandler}>
-            logout
+          <Link to="/">
+            <div>logo</div>
           </Link>
+
+          <div className={classes.subNav}>
+            <Link to="/question">QUESTION</Link>
+            <Link to="/search">SEARCH</Link>
+            <Link to="/group">GROUP</Link>
+            <Link to="/mypage">MY_PAGE</Link>
+            <Link to="/login" onClick={logoutHandler}>
+              logout
+            </Link>
+          </div>
         </div>
       </div>
     );
   else
     return (
-      <div>
-        <div>Header</div>
+      <div className={classes.headerWrap}>
         <div className={classes.headerContainer}>
-          <div>logo</div>
-          <Link to="/login">LOGIN</Link>
+          <Link to="/">
+            <div>logo</div>
+          </Link>
+          <div className={classes.subNav}>
+            <Link to="/question">QUESTION</Link>
+            <Link to="/search">SEARCH</Link>
+            <Link to="/group">GROUP</Link>
+            <Link to="/login">LOGIN</Link>
+          </div>
         </div>
       </div>
     );
