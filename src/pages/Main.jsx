@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout, success_check } from '../reducers/account/authenticate';
 import { check_token } from '../api/account';
 import LoginSuccess from '../components/main/LoginSuccess';
+import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -31,17 +33,22 @@ const Main = () => {
   }, []);
   console.log(loginState);
   if (loginState === 'success') {
-    return <LoginSuccess />;
+    return (
+      <>
+        <Header />
+        <LoginSuccess />
+      </>
+    );
   } else {
     return (
-      <div className={classes.mainContainer}>
-        <div>메인페이지</div>
-        <LoginBox status={loginState} />
-        <div>---------------------</div>
-        <div>-------회원가입--------</div>
-        <div>---------------------</div>
-        <SignUpBox />
-      </div>
+      <>
+        <Header />
+        <div className={classes.mainContainer}>
+          <div>메인페이지</div>
+          <div>지금 바로 서비스를 시작해 보아요!</div>
+          <Link to="/login">지금 시작하기!</Link>
+        </div>
+      </>
     );
   }
 };

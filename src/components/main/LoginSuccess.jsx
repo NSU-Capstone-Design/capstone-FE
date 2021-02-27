@@ -6,9 +6,7 @@ import Header from '../Header';
 const LoginSuccess = () => {
   return (
     <div>
-      <div>로그인 성공</div>
-      <Header />
-      <button onClick={test}>test</button>
+      <button onClick={test}>로그인 성공 페이지</button>
     </div>
   );
 };

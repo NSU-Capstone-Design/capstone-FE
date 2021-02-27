@@ -52,7 +52,10 @@ export const check_token = () => {
                   return res.status;
                 })
                 .catch((e) => {
-                  return 401;
+                  window.alert('개발자에게 문의 부탁 드립니다.');
+                  window.localStorage.removeItem('access');
+                  window.localStorage.removeItem('refresh');
+                  window.location.href = FRONT_BASE_URL + '/login';
                 });
             })
             .catch((e) => {

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout, success_check } from '../reducers/account/authenticate';
 import { check_token } from '../api/account';
 import LoginSuccess from '../components/main/LoginSuccess';
+import { Redirect } from 'react-router-dom';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -22,7 +23,7 @@ const Login = () => {
   const loginState = useSelector((state) => state.account.status);
 
   if (loginState === 'success') {
-    return <LoginSuccess />;
+    return <Redirect to="/main" />;
   } else {
     return (
       <div className={classes.mainContainer}>
