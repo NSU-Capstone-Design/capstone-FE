@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import LoginBox from '../containers/account/LoginBox';
 import SignUpBox from '../containers/account/SingUpBox';
@@ -15,6 +15,7 @@ const useStyle = makeStyles({
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
+    width: '1024px',
     height: '100vh',
   },
 });

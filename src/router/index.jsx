@@ -8,6 +8,7 @@ import Login from '../pages/Login';
 import Group from '../pages/Group';
 import Search from '../pages/Search';
 import Question from '../pages/Question';
+import ProblemDetail from '../pages/ProblemDetail';
 
 const useStyle = makeStyles({});
 
@@ -23,6 +24,7 @@ const Root = () => {
         <Route path="/group" exact component={Group} />
         <Route path="/question" exact component={Question} />
         <Route path="/search" exact component={Search} />
+        <Route path="/problemDetail" exact component={ProblemDetail} />
         <Redirect path="*" to="/" />
       </Switch>
     </BrowserRouter>
