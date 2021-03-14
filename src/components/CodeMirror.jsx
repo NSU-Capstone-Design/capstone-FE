@@ -6,7 +6,6 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/dracula.css';
 import 'codemirror/theme/panda-syntax.css';
 import 'codemirror/theme/material.css';
-import '../css/dracula.css';
 
 const useStyle = makeStyles({
   codeMirrorBox: {

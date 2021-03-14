@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core';
-import LoginBox from '../containers/account/LoginBox';
-import SignUpBox from '../containers/account/SingUpBox';
+import { makeStyles, Button } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, success_check } from '../reducers/account/authenticate';
 import { check_token } from '../api/account';
 import LoginSuccess from '../components/main/LoginSuccess';
+import Index from '../components/main/Index';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 const useStyle = makeStyles({
   mainContainer: {
+    marginTop: '60px',
     display: 'flex',
     justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '1024px',
-    height: '100vh',
+    backgroundColor: '#fafafa',
   },
 });
 
@@ -32,12 +31,14 @@ const Main = () => {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
   }, []);
-  console.log(loginState);
+  console.log('mainpage : ' + loginState);
   if (loginState === 'success') {
     return (
       <>
         <Header />
-        <LoginSuccess />
+        <div className={classes.mainContainer}>
+          <LoginSuccess />
+        </div>
       </>
     );
   } else {
@@ -45,9 +46,7 @@ const Main = () => {
       <>
         <Header />
         <div className={classes.mainContainer}>
-          <div>메인페이지</div>
-          <div>지금 바로 서비스를 시작해 보아요!</div>
-          <Link to="/login">지금 시작하기!</Link>
+          <Index />
         </div>
       </>
     );

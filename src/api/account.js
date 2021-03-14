@@ -22,7 +22,6 @@ export const sign_up_api = async (data) => {
 
 export const check_token = async () => {
   const token = window.localStorage.getItem('access');
-  console.log(token);
   if (token !== undefined) {
     let result;
     await baseApi
@@ -30,12 +29,9 @@ export const check_token = async () => {
         token,
       })
       .then((res) => {
-        console.log('pass' + res.status);
         result = res.status;
       })
       .catch(async (err) => {
-        console.log(err.response.status + 'here');
-
         if (err.response.status == 401) {
           // refresh 토큰으로 access토큰 받기
           const accesToken = await refreshAccessToken();
@@ -57,17 +53,6 @@ export const check_token = async () => {
       });
     return result;
   }
-};
-
-export const test = () => {
-  authenticatedApi(window.localStorage.getItem('access'))
-    .get('/users/test/')
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
 };
 
 export const myInfo = async () => {
@@ -116,4 +101,18 @@ export const refreshAccessToken = async () => {
       });
     return token;
   }
+};
+
+export const getLevelApi = async () => {
+  let level;
+  await authenticatedApi
+    .get('/users/level/')
+    .then((res) => {
+      console.log(res);
+      level = res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  return level;
 };

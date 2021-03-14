@@ -8,7 +8,6 @@ const SUCCESS_TOKEN = 'account/SUCCESS_TOKEN';
 export const login = (data) => async (dispatch) => {
   login_api(data)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: LOGIN,
         access: res.access,
@@ -17,7 +16,6 @@ export const login = (data) => async (dispatch) => {
       });
     })
     .catch((err) => {
-      console.error(err);
       const error_code = err.response.status;
       if (error_code == 401) {
         dispatch({
@@ -65,7 +63,12 @@ export default function (state = initialState, action) {
         ...state,
         status: 'success',
       };
+    case 'LOGOUT':
+      return {
+        ...state,
+        status: '',
+      };
     default:
-      return initialState;
+      return state;
   }
 }

@@ -16,9 +16,6 @@ const LoginBox = ({ status }) => {
     };
     dispatch(login(data));
   };
-  const check = () => {
-    console.log(user_id);
-  };
   return (
     <div>
       <label htmlFor="id">id : </label>
@@ -33,9 +30,6 @@ const LoginBox = ({ status }) => {
       <div>
         <button onClick={loginHandler}>login</button>
         <span>{status}</span>
-      </div>
-      <div>
-        <button onClick={check}>check</button>
       </div>
     </div>
   );

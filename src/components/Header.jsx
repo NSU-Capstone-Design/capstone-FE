@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../reducers/account/authenticate';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { check_token } from '../api/account';
 
@@ -14,15 +14,39 @@ const useStyle = makeStyles({
     height: '60px',
   },
   headerWrap: {
+    backgroundColor: '#fafafa',
+    height: '60px',
+    top: '0px',
+    position: 'fixed',
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    border: '1px solid black',
+    zIndex: '3',
+    boxShadow: '-1px 5px 18px 0px rgba(0,0,0,0.5)',
   },
   subNav: {
     display: 'flex',
     justifyContent: 'space-between',
-    width: '350px',
+    width: '30%',
+    height: '100%',
+    '& a': {
+      textDecoration: 'none',
+      color: '#352828',
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      // display: 'inline-block',
+    },
+    '& a:hover': {
+      color: 'white',
+      fontWeight: 700,
+      backgroundColor: '#ff6d6d',
+    },
+  },
+  accountBox: {
+    marginRight: '10px',
   },
 });
 
@@ -33,6 +57,7 @@ const Header = () => {
     window.localStorage.removeItem('access');
     window.localStorage.removeItem('refresh');
     dispatch(logout());
+    setLoginState('fail');
   };
   const [loginState, setLoginState] = useState('fail');
   useEffect(async () => {
@@ -45,17 +70,21 @@ const Header = () => {
     return (
       <div className={classes.headerWrap}>
         <div className={classes.headerContainer}>
-          <Link to="/">
-            <div>logo</div>
+          <Link to="/" style={{ marginLeft: '10px' }}>
+            <img src="/static/duck.png" alt="" style={{ width: '30px' }} />
           </Link>
 
           <div className={classes.subNav}>
-            <Link to="/question">QUESTION</Link>
-            <Link to="/search">SEARCH</Link>
-            <Link to="/group">GROUP</Link>
-            <Link to="/mypage">MY_PAGE</Link>
-            <Link to="/login" onClick={logoutHandler}>
-              logout
+            <Link to="/question">Q&A</Link>
+            <Link to="/search">문제찾기</Link>
+            <Link to="/group">그룹</Link>
+            <Link to="/mypage">마이페이지</Link>
+          </div>
+          <div className={classes.accountBox}>
+            <Link to="/" onClick={logoutHandler}>
+              <Button variant="contained" color="secondary">
+                로그아웃
+              </Button>
             </Link>
           </div>
         </div>
@@ -65,14 +94,20 @@ const Header = () => {
     return (
       <div className={classes.headerWrap}>
         <div className={classes.headerContainer}>
-          <Link to="/">
-            <div>logo</div>
+          <Link to="/" style={{ marginLeft: '10px' }}>
+            <img src="/static/duck.png" alt="" style={{ width: '30px' }} />
           </Link>
           <div className={classes.subNav}>
-            <Link to="/question">QUESTION</Link>
-            <Link to="/search">SEARCH</Link>
-            <Link to="/group">GROUP</Link>
-            <Link to="/login">LOGIN</Link>
+            <Link to="/question">Q&A</Link>
+            <Link to="/search">문제찾기</Link>
+            <Link to="/group">그룹</Link>
+          </div>
+          <div className={classes.accountBox}>
+            <Link to="/login" onClick={logoutHandler}>
+              <Button variant="contained" color="secondary">
+                로그인
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
