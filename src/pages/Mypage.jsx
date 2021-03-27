@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { myInfo } from '../api/account';
+import { useSelector } from 'react-redux';
 import Header from '../components/Header';
 import { makeStyles } from '@material-ui/core';
 
@@ -26,6 +27,7 @@ const Mypage = () => {
     expert_user: false,
   });
   const classes = useStyles();
+  const loginState = useSelector((state) => state.account.status);
   useEffect(async () => {
     const data = await myInfo();
     console.log(data);
@@ -36,7 +38,7 @@ const Mypage = () => {
   };
   return (
     <>
-      <Header />
+      <Header loginState={loginState} />
       <div className={classes.mypageWrap}>
         <div className={classes.mypageContainer}>
           <div>기본정보 가져오기</div>

@@ -7,8 +7,8 @@ const GET_LEVEL_ERROR = 'account/GET_LEVEL_ERROR';
 export const getLevel = () => async (dispatch) => {
   dispatch({ type: GET_LEVEL });
   try {
-    const level = 3;
-    // const level = await getLevelApi();
+    // const level = 3;
+    const { level } = await getLevelApi();
     console.log(level);
     console.log('level 성공');
 

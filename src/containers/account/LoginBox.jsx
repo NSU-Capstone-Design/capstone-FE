@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { login } from '../../reducers/account/authenticate';
 
 const LoginBox = ({ status }) => {
   const [id, setId] = useState('admin');
   const [password, setPassword] = useState('sm46564323');
   const dispatch = useDispatch();
-  const user_id = useSelector((state) => state);
   const idInputHandler = (e) => setId(e.target.value);
   const pwInputHandler = (e) => setPassword(e.target.value);
   const loginHandler = () => {
@@ -30,6 +30,9 @@ const LoginBox = ({ status }) => {
       <div>
         <button onClick={loginHandler}>login</button>
         <span>{status}</span>
+      </div>
+      <div>
+        아직 회원이 아니시라구요? <Link to="/signup">회원가입</Link>
       </div>
     </div>
   );

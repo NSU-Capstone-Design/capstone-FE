@@ -9,7 +9,7 @@ import Group from '../pages/Group';
 import Search from '../pages/Search';
 import Question from '../pages/Question';
 import ProblemDetail from '../pages/ProblemDetail';
-
+import SignUp from '../pages/SingUp';
 const useStyle = makeStyles({});
 
 const Root = () => {
@@ -19,6 +19,7 @@ const Root = () => {
       <Switch>
         <Route path="/" exact component={Main} />
         <Route path="/login" exact component={Login} />
+        <Route path="/signup" exact component={SignUp} />
         <Route path="/mypage" component={Mypage} />
         <Route path="/subpage" exact component={SubPage} />
         <Route path="/group" exact component={Group} />

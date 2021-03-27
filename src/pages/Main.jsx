@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles, Button } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, success_check } from '../reducers/account/authenticate';
+import { success_check } from '../reducers/account/authenticate';
 import { check_token } from '../api/account';
 import LoginSuccess from '../components/main/LoginSuccess';
 import Index from '../components/main/Index';
@@ -35,7 +35,7 @@ const Main = () => {
   if (loginState === 'success') {
     return (
       <>
-        <Header />
+        <Header loginState={loginState} />
         <div className={classes.mainContainer}>
           <LoginSuccess />
         </div>

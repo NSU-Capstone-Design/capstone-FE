@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../reducers/account/authenticate';
 import { makeStyles, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { check_token } from '../api/account';
 
 const useStyle = makeStyles({
   headerContainer: {
@@ -50,28 +49,21 @@ const useStyle = makeStyles({
   },
 });
 
-const Header = () => {
+const Header = ({ loginState }) => {
   const classes = useStyle();
   const dispatch = useDispatch();
   const logoutHandler = () => {
     window.localStorage.removeItem('access');
     window.localStorage.removeItem('refresh');
     dispatch(logout());
-    setLoginState('fail');
   };
-  const [loginState, setLoginState] = useState('fail');
-  useEffect(async () => {
-    const res = await check_token();
-    if (res === 200) {
-      setLoginState('success');
-    }
-  }, []);
+
   if (loginState === 'success')
     return (
       <div className={classes.headerWrap}>
         <div className={classes.headerContainer}>
           <Link to="/" style={{ marginLeft: '10px' }}>
-            <img src="/static/duck.png" alt="" style={{ width: '30px' }} />
+            <img src="/static/logo.png" alt="" style={{ width: '100px' }} />
           </Link>
 
           <div className={classes.subNav}>
@@ -95,7 +87,7 @@ const Header = () => {
       <div className={classes.headerWrap}>
         <div className={classes.headerContainer}>
           <Link to="/" style={{ marginLeft: '10px' }}>
-            <img src="/static/duck.png" alt="" style={{ width: '30px' }} />
+            <img src="/static/logo.png" alt="" style={{ width: '100px' }} />
           </Link>
           <div className={classes.subNav}>
             <Link to="/question">Q&A</Link>
