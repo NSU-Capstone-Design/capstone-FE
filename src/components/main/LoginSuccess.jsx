@@ -17,12 +17,7 @@ const LoginSuccess = () => {
   }, [dispatch]);
   if (loading) return <div>로딩중...</div>;
   else {
-    if (level === null)
-      return (
-        <div style={{ margin: '30px 0' }}>
-          <LevelTest />
-        </div>
-      );
+    if (level === null) return <LevelTest />;
     else return <div>맞춤 문제{level}</div>;
   }
 };

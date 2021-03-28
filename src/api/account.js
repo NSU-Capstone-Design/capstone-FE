@@ -112,7 +112,6 @@ export const getLevelApi = async () => {
   await authenticatedApi(window.localStorage.getItem('access'))
     .get('/users/level/')
     .then((res) => {
-      console.log(res);
       level = res.data;
     })
     .catch(async (err) => {
@@ -134,4 +133,19 @@ export const getLevelApi = async () => {
       }
     });
   return level;
+};
+
+export const getLevelTestProbs = async () => {
+  let response;
+  await authenticatedApi(window.localStorage.getItem('access'))
+    .get('/level/level_test_probs/')
+    .then((res) => {
+      console.log('hi?');
+      response = res.data;
+    })
+    .catch((err) => {
+      console.err(err);
+      response = 'error';
+    });
+  return response;
 };
