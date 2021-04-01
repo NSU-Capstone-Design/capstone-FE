@@ -23,9 +23,15 @@ const useStyle = makeStyles({
     borderRadius: '10px',
     width: 'calc(100% - 20px)',
     height: '40px',
-    margin: '20px 10px',
+    margin: '39px 10px 1px 10px',
     border: 'solid #898989 1px',
     outline: 0,
+  },
+  statusStyle: {
+    display: 'flex',
+    fontSize: '8pt',
+    color: 'red',
+    width: 'calc(100% - 20px)',
   },
   buttonContainer: {
     borderBottom: 'solid 1px #b7b7b7',
@@ -83,12 +89,14 @@ const LoginBox = ({ status }) => {
           onChange={pwInputHandler}
           placeholder="비밀번호"
         />
+        <div className={classes.statusStyle}>
+          <span>{status}</span>
+        </div>
       </div>
       <div className={classes.buttonContainer}>
         <button className={classes.buttonBox} onClick={loginHandler}>
           로그인
         </button>
-        <span>{status}</span>
       </div>
       <div className={classes.signUpContainer}>
         계정이 없으신가요? <Link to="/signup">가입하기</Link>

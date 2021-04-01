@@ -35,6 +35,7 @@ const useStyle = makeStyles({
     width: '50%',
     height: '13%',
     margin: '25px',
+    marginBottom: 0,
   },
 });
 
