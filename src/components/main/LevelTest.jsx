@@ -5,11 +5,12 @@ import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import { getLTP } from '../../reducers/account/levelTestProbs';
 import { useDispatch, useSelector } from 'react-redux';
 import CodeMirror from '../CodeMirror';
-import { Hidden } from '@material-ui/core';
+import useModalEvent from '../../hooks/useModalEvent';
+import LevelTestSurvey from './LevelTestSurvey';
+// import ModalEvent from '../others/ModalEvent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,26 +50,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getSteps(step) {
-  return step;
-}
-
 export default function HorizontalNonLinearStepper() {
   const levelTestProblemsList = useSelector(
     (state) => state.levelTestProbs.probs
   );
   console.log(levelTestProblemsList);
   const dispatch = useDispatch();
+  const [activeStep, setActiveStep] = useState(0); // 현재 화면에 활성중인 스텝의 인덱스
+  const [completed, setCompleted] = useState({}); // 객체 형식으로, 키에는 step 인덱스, 값은 boolean으로, 완료는 T 미완은 F
+  const [
+    completedModal,
+    setCompletedModal,
+    open,
+    close,
+    ModalEvent,
+  ] = useModalEvent(false);
+
   useEffect(async () => {
     dispatch(await getLTP());
   }, []);
+  useEffect(() => {
+    let firstActiveIdx = levelTestProblemsList.length;
+    levelTestProblemsList.map((prob) => {
+      console.log('hi');
+      if (prob.evaluation !== '-') {
+        const newCompleted = completed;
+        newCompleted[prob.number - 1] = true;
+        setCompleted(newCompleted);
+      } else {
+        console.log(prob.number, 'prob.number');
+        if (firstActiveIdx > prob.number - 1) {
+          firstActiveIdx = prob.number - 1;
+        }
+      }
+    });
+    console.log(firstActiveIdx, '9999');
+    setActiveStep(firstActiveIdx);
+  }, [levelTestProblemsList]);
   const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
-  const [completed, setCompleted] = useState({});
-  const steps = getSteps(levelTestProblemsList);
 
   const totalSteps = () => {
-    return steps.length;
+    return levelTestProblemsList.length;
   };
 
   const completedSteps = () => {
@@ -88,7 +110,7 @@ export default function HorizontalNonLinearStepper() {
       isLastStep() && !allStepsCompleted()
         ? // It's the last step, but not all steps have been completed,
           // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
+          levelTestProblemsList.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
@@ -101,17 +123,18 @@ export default function HorizontalNonLinearStepper() {
     setActiveStep(step);
   };
 
+  // 완료 버튼 누를시 동작
   const handleComplete = () => {
-    const newCompleted = completed;
-    newCompleted[activeStep] = true;
-    setCompleted(newCompleted);
-    handleNext();
+    // 완료 상태로 변경
+    // const newCompleted = completed;
+    // newCompleted[activeStep] = true;
+    // setCompleted(newCompleted);
+
+    // 모달 창 띄우기 그리고 모달창에서 평가하기 그리고 아래 함수
+    open();
+    // handleNext();
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
   const copy = (e, id) => {
     var tempElem = document.createElement('textarea');
     tempElem.value = document.getElementById(id).innerText;
@@ -121,6 +144,7 @@ export default function HorizontalNonLinearStepper() {
     document.execCommand('copy');
     document.body.removeChild(tempElem);
   };
+  const saveScore = () => {};
   return (
     <div className={classes.root}>
       <Stepper
@@ -128,7 +152,7 @@ export default function HorizontalNonLinearStepper() {
         activeStep={activeStep}
         style={{ padding: '12px', overflow: 'hidden' }}
       >
-        {steps.map((probs, index) => (
+        {levelTestProblemsList.map((probs, index) => (
           <Step key={probs.number}>
             <StepButton
               onClick={handleStep(index)}
@@ -146,7 +170,7 @@ export default function HorizontalNonLinearStepper() {
               <Typography className={classes.instructions}>
                 All steps completed - you&apos;re finished
               </Typography>
-              <Button onClick={handleReset}>Reset</Button>
+              <Button onClick={saveScore}>문제 풀러 가기</Button>
             </div>
           ) : (
             <div>
@@ -185,8 +209,11 @@ export default function HorizontalNonLinearStepper() {
                         id={`io${activeStep}${index}`}
                         style={{
                           overflowX: 'scroll',
-                          width: '95%',
+                          width: '90%',
+                          height: '30px',
                           margin: '3px 5px',
+                          padding: '10px',
+                          border: '1px solid #a9a9a9',
                         }}
                       >
                         {ioexam.value}
@@ -218,11 +245,15 @@ export default function HorizontalNonLinearStepper() {
         >
           Next
         </Button>
-        {activeStep !== steps.length &&
+        {activeStep !== levelTestProblemsList.length &&
           (completed[activeStep] ? (
-            <Typography variant="caption" className={classes.completed}>
-              Step {activeStep + 1} already completed
-            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleComplete}
+            >
+              평가 수정
+            </Button>
           ) : (
             <Button
               variant="contained"
@@ -234,6 +265,13 @@ export default function HorizontalNonLinearStepper() {
                 : 'Complete Step'}
             </Button>
           ))}
+        <ModalEvent state={completedModal} close={close}>
+          <LevelTestSurvey
+            close={close}
+            ltpl={levelTestProblemsList}
+            activeStep={activeStep}
+          />
+        </ModalEvent>
       </div>
     </div>
   );

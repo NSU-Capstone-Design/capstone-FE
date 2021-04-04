@@ -1,4 +1,4 @@
-import { getLevelTestProbs } from '../../api/account';
+import { getLevelTestProbs } from '../../api/levelTest';
 
 // LTP = Level Test Problems
 const GET_LTP = 'account/GET_LTP';
