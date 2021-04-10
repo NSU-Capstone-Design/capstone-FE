@@ -68,19 +68,22 @@ export default function HorizontalNonLinearStepper() {
 
   useEffect(async () => {
     dispatch(await getLTP());
+    console.log(levelTestProblemsList, 'fisrt');
   }, []);
   useEffect(() => {
     let firstActiveIdx = levelTestProblemsList.length;
-    levelTestProblemsList.map((prob) => {
+    console.log(levelTestProblemsList, 'second');
+
+    levelTestProblemsList.map((prob, key) => {
       console.log('hi');
       if (prob.evaluation !== '-') {
         const newCompleted = completed;
         newCompleted[prob.number - 1] = true;
         setCompleted(newCompleted);
       } else {
-        console.log(prob.number, 'prob.number');
-        if (firstActiveIdx > prob.number - 1) {
-          firstActiveIdx = prob.number - 1;
+        console.log(key, 'prob.number', prob.number);
+        if (firstActiveIdx > key) {
+          firstActiveIdx = key;
         }
       }
     });
@@ -102,7 +105,7 @@ export default function HorizontalNonLinearStepper() {
   };
 
   const allStepsCompleted = () => {
-    return completedSteps() === totalSteps();
+    return completedSteps() === totalSteps() - 1;
   };
 
   const handleNext = () => {
@@ -152,77 +155,111 @@ export default function HorizontalNonLinearStepper() {
         activeStep={activeStep}
         style={{ padding: '12px', overflow: 'hidden' }}
       >
-        {levelTestProblemsList.map((probs, index) => (
-          <Step key={probs.number}>
-            <StepButton
-              onClick={handleStep(index)}
-              completed={completed[index]}
-            >
-              {probs.problem.level} {probs.problem.title}
-            </StepButton>
-          </Step>
-        ))}
+        {levelTestProblemsList.map((probs, index) => {
+          console.log(probs, 'count');
+          if (index === levelTestProblemsList.length - 1) {
+            return (
+              <Step key={index + 1} id={index}>
+                <StepButton
+                  onClick={handleStep(index)}
+                  completed={completed[index]}
+                >
+                  최종 안내
+                </StepButton>
+              </Step>
+            );
+          } else {
+            return (
+              <Step key={index + 1} id={index}>
+                <StepButton
+                  onClick={handleStep(index)}
+                  completed={completed[index]}
+                >
+                  {probs.problem.level} {probs.problem.title}
+                </StepButton>
+              </Step>
+            );
+          }
+        })}
       </Stepper>
       <div className={classes.contentWrap}>
         <div className={classes.left}>
-          {allStepsCompleted() ? (
-            <div>
-              <Typography className={classes.instructions}>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Button onClick={saveScore}>문제 풀러 가기</Button>
-            </div>
-          ) : (
-            <div>
-              <div className={classes.head1}>문제</div>
-              <Typography className={classes.instructions}>
-                {levelTestProblemsList[activeStep].problem.problem_content}
-              </Typography>
-              <div className={classes.head1}>입력</div>
-              <Typography className={classes.instructions}>
-                {levelTestProblemsList[activeStep].problem.problem_input}
-              </Typography>
-              <div className={classes.head1}>출력</div>
-              <Typography className={classes.instructions}>
-                {levelTestProblemsList[activeStep].problem.problem_output}
-              </Typography>
-              {levelTestProblemsList[activeStep].problem.ioexam_set.map(
-                (ioexam, index) => {
-                  return (
-                    <div className={classes.ioWrap}>
-                      <div className={classes.head1}>
-                        {ioexam.is_input ? '입력 예제' : '출력 예제'}{' '}
-                        <span
+          {console.log(
+            levelTestProblemsList[activeStep],
+            '!==',
+            levelTestProblemsList[activeStep] !== undefined
+          )}
+
+          {levelTestProblemsList[activeStep] !== undefined ? (
+            levelTestProblemsList[activeStep].id !== 'notice' ? (
+              <div>
+                <div className={classes.head1}>문제</div>
+                <Typography className={classes.instructions}>
+                  {levelTestProblemsList[activeStep].problem.problem_content}
+                </Typography>
+                <div className={classes.head1}>입력</div>
+                <Typography className={classes.instructions}>
+                  {levelTestProblemsList[activeStep].problem.problem_input}
+                </Typography>
+                <div className={classes.head1}>출력</div>
+                <Typography className={classes.instructions}>
+                  {levelTestProblemsList[activeStep].problem.problem_output}
+                </Typography>
+                {levelTestProblemsList[activeStep].problem.ioexam_set.map(
+                  (ioexam, index) => {
+                    return (
+                      <div className={classes.ioWrap}>
+                        <div className={classes.head1}>
+                          {ioexam.is_input ? '입력 예제' : '출력 예제'}
+                          <span
+                            style={{
+                              fontWeight: 500,
+                              color: '#10a0ff',
+                              cursor: 'pointer',
+                            }}
+                            onClick={(e) => {
+                              copy(e, `io${activeStep}${index}`);
+                            }}
+                          >
+                            복사
+                          </span>
+                        </div>
+                        <pre
+                          id={`io${activeStep}${index}`}
                           style={{
-                            fontWeight: 500,
-                            color: '#10a0ff',
-                            cursor: 'pointer',
-                          }}
-                          onClick={(e) => {
-                            copy(e, `io${activeStep}${index}`);
+                            overflowX: 'scroll',
+                            width: '90%',
+                            height: '30px',
+                            margin: '3px 5px',
+                            padding: '10px',
+                            border: '1px solid #a9a9a9',
                           }}
                         >
-                          복사
-                        </span>
+                          {ioexam.value}
+                        </pre>
                       </div>
-                      <pre
-                        id={`io${activeStep}${index}`}
-                        style={{
-                          overflowX: 'scroll',
-                          width: '90%',
-                          height: '30px',
-                          margin: '3px 5px',
-                          padding: '10px',
-                          border: '1px solid #a9a9a9',
-                        }}
-                      >
-                        {ioexam.value}
-                      </pre>
-                    </div>
-                  );
-                }
-              )}
-            </div>
+                    );
+                  }
+                )}
+              </div>
+            ) : (
+              <div>
+                <Typography className={classes.instructions}>
+                  다음 단계로 넘어가면 테스트가 완전히 종료됩니다. 평가 수정이
+                  필요한경우 지금 다시한번 확인 해 주세요.
+                </Typography>
+                <Button
+                  disabled={completedSteps() !== totalSteps() - 1}
+                  color="primary"
+                  variant="contained"
+                  onClick={saveScore}
+                >
+                  문제 풀러 가기
+                </Button>
+              </div>
+            )
+          ) : (
+            <></>
           )}
         </div>
         <div className={classes.right}>
@@ -242,10 +279,12 @@ export default function HorizontalNonLinearStepper() {
           color="primary"
           onClick={handleNext}
           className={classes.button}
+          disabled={activeStep === totalSteps() - 1}
         >
           Next
         </Button>
-        {activeStep !== levelTestProblemsList.length &&
+        {activeStep !== levelTestProblemsList.length - 1 ? (
+          activeStep !== levelTestProblemsList.length &&
           (completed[activeStep] ? (
             <Button
               variant="contained"
@@ -260,11 +299,12 @@ export default function HorizontalNonLinearStepper() {
               color="primary"
               onClick={handleComplete}
             >
-              {completedSteps() === totalSteps() - 1
-                ? 'Finish'
-                : 'Complete Step'}
+              문제 평가하기
             </Button>
-          ))}
+          ))
+        ) : (
+          <></>
+        )}
         <ModalEvent state={completedModal} close={close}>
           <LevelTestSurvey
             close={close}

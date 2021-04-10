@@ -5,6 +5,7 @@ const SIGN_UP_ERROR = 'account/SIGN_UP_ERROR';
 const DUPLICATE_ID = 'account/DUPLICATE_ID';
 const DUPLICATE_EMAIL = 'account/DUPLICATE_EMAIL';
 const SIGN_UP_LOADING = 'account/SIGN_UP_LOADING';
+const PROB_EMPTY = 'account/PROB_EMPTY';
 
 export const sign_up = (data) => async (dispatch) => {
   dispatch({
@@ -13,24 +14,33 @@ export const sign_up = (data) => async (dispatch) => {
   try {
     await sign_up_api(data)
       .then((res) => {
-        console.log(res);
+        console.log(res, 'success?');
         dispatch({
           type: SIGN_UP_SUCCESS,
         });
       })
       .catch((err) => {
         const res = err.response.data;
+        console.log(res, 'signup api');
         if (res.code === 0) {
           dispatch({
             type: SIGN_UP_ERROR,
           });
-        } else if (res.code === 2) {
+        } else if (res.user_id !== undefined) {
           dispatch({
             type: DUPLICATE_ID,
           });
-        } else if (res.code === 3) {
+        } else if (res.email !== undefined) {
           dispatch({
             type: DUPLICATE_EMAIL,
+          });
+        } else if (res.prob_num !== undefined) {
+          dispatch({
+            type: PROB_EMPTY,
+          });
+        } else {
+          dispatch({
+            type: SIGN_UP_ERROR,
           });
         }
       });
@@ -78,6 +88,11 @@ export default function (state = initialState, action) {
         loading: false,
         state: '중복된 이메일입니다.',
         error: true,
+      };
+    case PROB_EMPTY:
+      return {
+        loading: false,
+        state: '부적절한 접근입니다.잠시 후 이용 바랍니다.',
       };
     default:
       return initialState;

@@ -8,22 +8,14 @@ export default function ({ ltpl, activeStep, close }) {
   const dispatch = useDispatch();
   const [grade, setGrade] = useState(prob.evaluation);
   const [h, setH] = useState(false);
-  const [m, setM] = useState(false);
   const [l, setL] = useState(false);
   const setCheck = () => {
     if (grade === '상') {
       setH(true);
-      setM(false);
-      setL(false);
-    }
-    if (grade === '중') {
-      setM(true);
-      setH(false);
       setL(false);
     }
     if (grade === '하') {
       setL(true);
-      setM(false);
       setH(false);
     }
   };
@@ -44,12 +36,6 @@ export default function ({ ltpl, activeStep, close }) {
       <div>
         <input type="radio" value="상" checked={h} />
         <label for="huey">완전히 풀수 있다.</label>
-      </div>
-      <div>
-        <input type="radio" value="중" checked={m} />
-        <label for="huey">
-          어떤 방향으로 풀어야할지 설계는되지만 확신이 있지 않다.
-        </label>
       </div>
       <div>
         <input type="radio" value="하" checked={l} />
