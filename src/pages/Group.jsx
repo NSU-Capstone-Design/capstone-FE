@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
+import { getGroupList } from '../api/group';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -76,6 +77,7 @@ const Group = () => {
     } else {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
+    const gl = await getGroupList();
   }, []);
   return (
     <>
@@ -86,32 +88,8 @@ const Group = () => {
             <div className={classes.groupListBox}>
               <div className={classes.groupWrap}>
                 <div className={classes.groupBox}>
-                  <div className={classes.groupImg}>Group_Img</div>
-                  <div className={classes.groupName}>GroupName</div>
-                </div>
-              </div>
-              <div className={classes.groupWrap}>
-                <div className={classes.groupBox}>
-                  <div className={classes.groupImg}>Group_Img</div>
-                  <div className={classes.groupName}>GroupName</div>
-                </div>
-              </div>
-              <div className={classes.groupWrap}>
-                <div className={classes.groupBox}>
-                  <div className={classes.groupImg}>Group_Img</div>
-                  <div className={classes.groupName}>GroupName</div>
-                </div>
-              </div>
-              <div className={classes.groupWrap}>
-                <div className={classes.groupBox}>
-                  <div className={classes.groupImg}>Group_Img</div>
-                  <div className={classes.groupName}>GroupName</div>
-                </div>
-              </div>
-              <div className={classes.groupWrap}>
-                <div className={classes.groupBox}>
-                  <div className={classes.groupImg}>Group_Img</div>
-                  <div className={classes.groupName}>GroupName</div>
+                  <div className={classes.groupImg}>+</div>
+                  <div className={classes.groupName}></div>
                 </div>
               </div>
             </div>
