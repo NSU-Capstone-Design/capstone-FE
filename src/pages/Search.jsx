@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
+import { baseApi } from '../api/axiosApi';
 
 const useStyles = makeStyles({});
 
@@ -19,10 +20,45 @@ const Search = () => {
     }
   }, []);
   const classes = useStyles();
+
+  const [prob, setProb] = useState([]);
+  useEffect(async () => {
+    await baseApi.get('/problem/').then(({ data }) => setProb(data));
+  }, []);
+
   return (
     <>
       <Header loginState={loginState} />
-      <div>문제 검색하기</div>
+      <table id="problem-info">
+        <thead>
+          <tr>
+            <th>문제 번호</th>
+            <th>제목</th>
+            <th>맞은 사람</th>
+            <th>제출</th>
+            <th>정답 비율</th>
+          </tr>
+        </thead>
+        <tbody>
+          {prob.map((probs) => (
+            <div key={probs.id}>
+              <table id="problme-info">
+                <tbody>
+                  <tr>
+                    <td>{probs.id}</td>
+                    <td>
+                      <a href="/problem/">{probs.title}</a>
+                    </td>
+                    <td>{probs.correct_people}</td>
+                    <td>{probs.submission}</td>
+                    <td>{probs.correct_answer_rate}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 };

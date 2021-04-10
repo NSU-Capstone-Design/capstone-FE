@@ -38,7 +38,7 @@ const ProblemDetail = () => {
     <>
       <Header />
       <div className={classes.container}>
-        <div className={classes.contentBox}>문제 내용들 입력</div>
+        <div className={classes.contentBox}>내용</div>
         <div className={classes.codeBox}>
           <CodeMirror />
         </div>
