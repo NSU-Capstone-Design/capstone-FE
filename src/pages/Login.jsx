@@ -21,7 +21,7 @@ const useStyle = makeStyles({
     backgroundColor: 'white',
     height: '75vh',
     borderRadius: '25px',
-    marginTop: '200px',
+    marginTop: '100px',
     boxShadow: '3px 3px 3px #9a9a9a',
   },
   bodyContainer: {

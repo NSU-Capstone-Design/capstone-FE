@@ -15,6 +15,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     width: '1024px',
+    marginTop: '100px',
   },
 });
 
