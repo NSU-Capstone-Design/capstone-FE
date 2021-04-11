@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepButton from '@material-ui/core/StepButton';
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CodeMirror from '../CodeMirror';
 import useModalEvent from '../../hooks/useModalEvent';
 import LevelTestSurvey from './LevelTestSurvey';
+import IOExam from './IOExam';
 // import ModalEvent from '../others/ModalEvent';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,14 +40,6 @@ const useStyles = makeStyles((theme) => ({
   right: {
     width: '50%',
     overflow: 'scroll',
-  },
-  head1: {
-    fontWeight: '700',
-    margin: '5px 3px',
-  },
-  ioWrap: {
-    display: 'inline-block',
-    width: '50%',
   },
 }));
 
@@ -137,7 +130,29 @@ export default function HorizontalNonLinearStepper() {
     open();
     // handleNext();
   };
-
+  const ioExamZip = (ioExams) => {
+    const ioExamList = [];
+    let ioExamSet = {
+      input: {},
+      output: {},
+    };
+    for (let io of ioExams) {
+      if (io.is_input) {
+        ioExamSet.input = io;
+      } else {
+        ioExamSet.output = io;
+      }
+      if (ioExamSet.input.io_num === ioExamSet.output.io_num) {
+        ioExamList.push(ioExamSet);
+        ioExamSet = {
+          input: {},
+          output: {},
+        };
+      }
+    }
+    console.log(ioExamList, 'last');
+    return ioExamList;
+  };
   const copy = (e, id) => {
     var tempElem = document.createElement('textarea');
     tempElem.value = document.getElementById(id).innerText;
@@ -153,7 +168,12 @@ export default function HorizontalNonLinearStepper() {
       <Stepper
         nonLinear
         activeStep={activeStep}
-        style={{ padding: '12px', overflow: 'hidden' }}
+        style={{
+          padding: '12px',
+          overflowX: 'scroll',
+          overflowY: 'hidden',
+          width: '100vw',
+        }}
       >
         {levelTestProblemsList.map((probs, index) => {
           console.log(probs, 'count');
@@ -163,6 +183,7 @@ export default function HorizontalNonLinearStepper() {
                 <StepButton
                   onClick={handleStep(index)}
                   completed={completed[index]}
+                  style={{ padding: '5px' }}
                 >
                   최종 안내
                 </StepButton>
@@ -174,8 +195,9 @@ export default function HorizontalNonLinearStepper() {
                 <StepButton
                   onClick={handleStep(index)}
                   completed={completed[index]}
+                  style={{ width: '100px' }}
                 >
-                  {probs.problem.level} {probs.problem.title}
+                  {probs.problem.title}
                 </StepButton>
               </Step>
             );
@@ -205,42 +227,22 @@ export default function HorizontalNonLinearStepper() {
                 <Typography className={classes.instructions}>
                   {levelTestProblemsList[activeStep].problem.problem_output}
                 </Typography>
-                {levelTestProblemsList[activeStep].problem.ioexam_set.map(
-                  (ioexam, index) => {
-                    return (
-                      <div className={classes.ioWrap}>
-                        <div className={classes.head1}>
-                          {ioexam.is_input ? '입력 예제' : '출력 예제'}
-                          <span
-                            style={{
-                              fontWeight: 500,
-                              color: '#10a0ff',
-                              cursor: 'pointer',
-                            }}
-                            onClick={(e) => {
-                              copy(e, `io${activeStep}${index}`);
-                            }}
-                          >
-                            복사
-                          </span>
-                        </div>
-                        <pre
-                          id={`io${activeStep}${index}`}
-                          style={{
-                            overflowX: 'scroll',
-                            width: '90%',
-                            height: '30px',
-                            margin: '3px 5px',
-                            padding: '10px',
-                            border: '1px solid #a9a9a9',
-                          }}
-                        >
-                          {ioexam.value}
-                        </pre>
-                      </div>
-                    );
-                  }
+                {console.log(
+                  ioExamZip(
+                    levelTestProblemsList[activeStep].problem.ioexam_set
+                  ),
+                  'ioexam'
                 )}
+                {ioExamZip(
+                  levelTestProblemsList[activeStep].problem.ioexam_set
+                ).map((ioexam, index) => (
+                  <IOExam
+                    ioexam={ioexam}
+                    copy={copy}
+                    activeStep={activeStep}
+                    index={index}
+                  />
+                ))}
               </div>
             ) : (
               <div>
