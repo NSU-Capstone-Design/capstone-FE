@@ -9,6 +9,7 @@ import Group from '../pages/Group';
 import Search from '../pages/Search';
 import Question from '../pages/Question';
 import ProblemDetail from '../pages/ProblemDetail';
+import GroupCreate from '../pages/GroupCreate';
 import SignUp from '../pages/SingUp';
 const useStyle = makeStyles({});
 
@@ -23,6 +24,7 @@ const Root = () => {
         <Route path="/mypage" component={Mypage} />
         <Route path="/subpage" exact component={SubPage} />
         <Route path="/group" exact component={Group} />
+        <Route path="/group/create" exact component={GroupCreate} />
         <Route path="/question" exact component={Question} />
         <Route path="/search" exact component={Search} />
         <Route path="/problemDetail" exact component={ProblemDetail} />

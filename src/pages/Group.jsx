@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     flexDirection: 'column-reverse',
     alignItems: 'center',
     height: '100vh',
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#f2f1fc',
   },
   bodyWrap: {
     display: 'flex',
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     width: '100%',
     height: '90vh',
     marginTop: '30px',
-    borderTop: 'solid #cccccc 1px',
+    borderTop: 'solid #505050 1px',
   },
   groupListWrap: {
     display: 'flex',
