@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { login } from '../../reducers/account/authenticate';
+import { group_create } from '../../reducers/account/groupCreate';
 import { makeStyles } from '@material-ui/core';
 
 const useStyle = makeStyles({
@@ -54,49 +53,47 @@ const useStyle = makeStyles({
   },
 });
 
-const LoginBox = ({ status }) => {
+const LoginBox = () => {
   const classes = useStyle();
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
+  const [groupTitle, setId] = useState('');
+  const [introduce, setPassword] = useState('');
+  const [visible, setVisible] = useState(true);
   const dispatch = useDispatch();
-  const idInputHandler = (e) => setId(e.target.value);
-  const pwInputHandler = (e) => setPassword(e.target.value);
-  const loginHandler = () => {
+  const titleInputHandler = (e) => setId(e.target.value);
+  const introduceInputHandler = (e) => setPassword(e.target.value);
+  const visibleInputHandler = (e) => setVisible(e.target.value);
+  const groupCreateHandler = () => {
     const data = {
-      user_id: id,
-      password: password,
+      groupTitle: groupTitle,
+      introduce: introduce,
+      visible: visible,
     };
-    dispatch(login(data));
+    dispatch(group_create(data));
   };
   return (
-    <div className={classes.mainContainer}>
-      <div className={classes.txtContainer}>
-        <label htmlFor="id"></label>
+    <div>
+      <div>
         <input
-          className={classes.txtBox}
           type="text"
           id="id"
-          value={id}
-          onChange={idInputHandler}
+          value={groupTitle}
+          onChange={titleInputHandler}
           placeholder="그룹명"
         />
-        <label htmlFor="pw"></label>
         <input
-          className={classes.txtBox}
-          type="password"
+          type="text"
           id="pw"
-          value={password}
-          onChange={pwInputHandler}
+          value={introduce}
+          onChange={introduceInputHandler}
           placeholder="그룹 소개"
         />
-        <div className={classes.statusStyle}>
-          <span>{status}</span>
-        </div>
       </div>
-      <div className={classes.buttonContainer}>
-        <button className={classes.buttonBox} onClick={loginHandler}>
-          생성
-        </button>
+      <div>
+        <label htmlFor="visible">비공개 : </label>
+        <input type="checkbox" onChange={visibleInputHandler} />
+      </div>
+      <div>
+        <button onClick={groupCreateHandler}>생성</button>
       </div>
     </div>
   );

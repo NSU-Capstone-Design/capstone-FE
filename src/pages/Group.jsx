@@ -5,6 +5,7 @@ import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { getGroupList } from '../api/group';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -51,8 +52,16 @@ const useStyles = makeStyles({
   groupBox: {
     width: '60%',
     height: '100%',
-    backgroundColor: 'white',
     boxShadow: '3px 3px 3px #9a9a9a',
+    backgroundColor: 'white',
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#dddddd',
+    },
+  },
+  linkStyle: {
+    color: 'black',
+    textDecoration: 'none',
   },
   groupImg: {
     display: 'flex',
@@ -60,8 +69,12 @@ const useStyles = makeStyles({
     alignItems: 'center',
     height: 'calc(65% - 1px)',
     borderBottom: 'solid #aaaaaa 1px',
+    fontSize: '30pt',
   },
   groupName: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: '35%',
   },
 });
@@ -88,8 +101,10 @@ const Group = () => {
             <div className={classes.groupListBox}>
               <div className={classes.groupWrap}>
                 <div className={classes.groupBox}>
-                  <div className={classes.groupImg}>+</div>
-                  <div className={classes.groupName}></div>
+                  <Link to="/group/create" className={classes.linkStyle}>
+                    <div className={classes.groupImg}>+</div>
+                    <div className={classes.groupName}>그룹추가</div>
+                  </Link>
                 </div>
               </div>
             </div>
