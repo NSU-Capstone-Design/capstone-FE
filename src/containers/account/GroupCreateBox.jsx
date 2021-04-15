@@ -55,7 +55,7 @@ const useStyle = makeStyles({
 
 const LoginBox = () => {
   const classes = useStyle();
-  const [groupTitle, setId] = useState('');
+  const [group_name, setId] = useState('');
   const [introduce, setPassword] = useState('');
   const [visible, setVisible] = useState(true);
   const dispatch = useDispatch();
@@ -64,9 +64,9 @@ const LoginBox = () => {
   const visibleInputHandler = (e) => setVisible(e.target.value);
   const groupCreateHandler = () => {
     const data = {
-      groupTitle: groupTitle,
+      group_name: group_name,
       introduce: introduce,
-      visible: visible,
+      group_visible: visible,
     };
     dispatch(group_create(data));
   };
@@ -76,7 +76,7 @@ const LoginBox = () => {
         <input
           type="text"
           id="id"
-          value={groupTitle}
+          value={group_name}
           onChange={titleInputHandler}
           placeholder="그룹명"
         />
