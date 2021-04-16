@@ -71,7 +71,6 @@ const LoginBox = ({ status }) => {
   return (
     <div className={classes.mainContainer}>
       <div className={classes.txtContainer}>
-        <label htmlFor="id"></label>
         <input
           className={classes.txtBox}
           type="text"
@@ -80,7 +79,6 @@ const LoginBox = ({ status }) => {
           onChange={idInputHandler}
           placeholder="사용자 아이디 또는 이메일"
         />
-        <label htmlFor="pw"></label>
         <input
           className={classes.txtBox}
           type="password"

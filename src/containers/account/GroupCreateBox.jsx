@@ -18,7 +18,7 @@ const useStyle = makeStyles({
     alignItems: 'center',
     width: '100%',
   },
-  txtBox: {
+  titleBox: {
     borderRadius: '10px',
     width: 'calc(100% - 20px)',
     height: '40px',
@@ -26,11 +26,37 @@ const useStyle = makeStyles({
     border: 'solid #898989 1px',
     outline: 0,
   },
+  introduceBox: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '10px',
+    width: 'calc(100% - 20px)',
+    height: '200px',
+    margin: '39px 10px 1px 10px',
+    border: 'solid #898989 1px',
+    outline: 0,
+  },
+  introduce: {
+    width: 'calc(100% - 20px)',
+    height: 'calc(100% - 20px)',
+    resize: 'none',
+    border: 'none',
+    outline: 0,
+  },
   statusStyle: {
     display: 'flex',
     fontSize: '8pt',
     color: 'red',
     width: 'calc(100% - 20px)',
+  },
+  visibleContainer: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: 'calc(100% - 30px)',
+    height: '40px',
+    marginLeft: '10px',
   },
   buttonContainer: {
     borderBottom: 'solid 1px #b7b7b7',
@@ -41,7 +67,7 @@ const useStyle = makeStyles({
     borderRadius: '10px',
     width: 'calc(100% - 18px)',
     height: '42px',
-    margin: '40px 10px 100px 10px',
+    margin: '40px 10px 50px 10px',
     backgroundColor: '#fd8083',
     color: 'white',
     border: 'none',
@@ -71,29 +97,33 @@ const LoginBox = () => {
     dispatch(group_create(data));
   };
   return (
-    <div>
-      <div>
+    <div className={classes.mainContainer}>
+      <div className={classes.txtContainer}>
         <input
+          className={classes.titleBox}
           type="text"
-          id="id"
           value={group_name}
           onChange={titleInputHandler}
           placeholder="그룹명"
         />
-        <input
-          type="text"
-          id="pw"
-          value={introduce}
-          onChange={introduceInputHandler}
-          placeholder="그룹 소개"
-        />
+        <div className={classes.introduceBox}>
+          <textarea
+            className={classes.introduce}
+            type="text"
+            value={introduce}
+            onChange={introduceInputHandler}
+            placeholder="그룹 소개"
+          />
+        </div>
       </div>
-      <div>
+      <div className={classes.visibleContainer}>
         <label htmlFor="visible">비공개 : </label>
-        <input type="checkbox" onChange={visibleInputHandler} />
+        <input type="checkbox" value={visible} onChange={visibleInputHandler} />
       </div>
-      <div>
-        <button onClick={groupCreateHandler}>생성</button>
+      <div className={classes.buttonContainer}>
+        <button className={classes.buttonBox} onClick={groupCreateHandler}>
+          생성
+        </button>
       </div>
     </div>
   );
