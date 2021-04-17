@@ -11,7 +11,8 @@ import CodeMirror from '../CodeMirror';
 import useModalEvent from '../../hooks/useModalEvent';
 import LevelTestSurvey from './LevelTestSurvey';
 import IOExam from './IOExam';
-// import ModalEvent from '../others/ModalEvent';
+import { createLevel } from '../../api/levelTest';
+// import ModalEvent  from '../others/ModalEvent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   contentWrap: {
     display: 'flex',
-    height: 'calc(100vh - 144px)',
+    height: 'calc(100vh - 160px)',
   },
   left: {
     width: '50%',
@@ -61,26 +62,24 @@ export default function HorizontalNonLinearStepper() {
 
   useEffect(async () => {
     dispatch(await getLTP());
-    console.log(levelTestProblemsList, 'fisrt');
   }, []);
   useEffect(() => {
     let firstActiveIdx = levelTestProblemsList.length;
     console.log(levelTestProblemsList, 'second');
 
     levelTestProblemsList.map((prob, key) => {
-      console.log('hi');
       if (prob.evaluation !== '-') {
         const newCompleted = completed;
         newCompleted[prob.number - 1] = true;
+        console.log(newCompleted, 'newComp');
         setCompleted(newCompleted);
       } else {
-        console.log(key, 'prob.number', prob.number);
         if (firstActiveIdx > key) {
           firstActiveIdx = key;
         }
       }
     });
-    console.log(firstActiveIdx, '9999');
+    console.log(completed);
     setActiveStep(firstActiveIdx);
   }, [levelTestProblemsList]);
   const classes = useStyles();
@@ -150,7 +149,6 @@ export default function HorizontalNonLinearStepper() {
         };
       }
     }
-    console.log(ioExamList, 'last');
     return ioExamList;
   };
   const copy = (e, id) => {
@@ -162,7 +160,9 @@ export default function HorizontalNonLinearStepper() {
     document.execCommand('copy');
     document.body.removeChild(tempElem);
   };
-  const saveScore = () => {};
+  const saveScore = async () => {
+    await createLevel();
+  };
   return (
     <div className={classes.root}>
       <Stepper
@@ -172,18 +172,17 @@ export default function HorizontalNonLinearStepper() {
           padding: '12px',
           overflowX: 'scroll',
           overflowY: 'hidden',
-          width: '100vw',
+          boxSizing: 'content-box',
         }}
       >
         {levelTestProblemsList.map((probs, index) => {
-          console.log(probs, 'count');
           if (index === levelTestProblemsList.length - 1) {
             return (
               <Step key={index + 1} id={index}>
                 <StepButton
                   onClick={handleStep(index)}
                   completed={completed[index]}
-                  style={{ padding: '5px' }}
+                  style={{ width: '100px', padding: '5px' }}
                 >
                   최종 안내
                 </StepButton>
@@ -206,12 +205,6 @@ export default function HorizontalNonLinearStepper() {
       </Stepper>
       <div className={classes.contentWrap}>
         <div className={classes.left}>
-          {console.log(
-            levelTestProblemsList[activeStep],
-            '!==',
-            levelTestProblemsList[activeStep] !== undefined
-          )}
-
           {levelTestProblemsList[activeStep] !== undefined ? (
             levelTestProblemsList[activeStep].id !== 'notice' ? (
               <div>
@@ -227,12 +220,7 @@ export default function HorizontalNonLinearStepper() {
                 <Typography className={classes.instructions}>
                   {levelTestProblemsList[activeStep].problem.problem_output}
                 </Typography>
-                {console.log(
-                  ioExamZip(
-                    levelTestProblemsList[activeStep].problem.ioexam_set
-                  ),
-                  'ioexam'
-                )}
+
                 {ioExamZip(
                   levelTestProblemsList[activeStep].problem.ioexam_set
                 ).map((ioexam, index) => (
