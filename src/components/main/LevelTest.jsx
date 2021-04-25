@@ -12,6 +12,7 @@ import useModalEvent from '../../hooks/useModalEvent';
 import LevelTestSurvey from './LevelTestSurvey';
 import IOExam from './IOExam';
 import { createLevel } from '../../api/levelTest';
+import { getLevel } from '../../reducers/account/level';
 // import ModalEvent  from '../others/ModalEvent';
 
 const useStyles = makeStyles((theme) => ({
@@ -162,6 +163,7 @@ export default function HorizontalNonLinearStepper() {
   };
   const saveScore = async () => {
     await createLevel();
+    dispatch(getLevel());
   };
   return (
     <div className={classes.root}>
