@@ -2,6 +2,7 @@ import { baseApi, authenticatedApi, autoRefreshGET } from './axiosApi';
 
 export const FRONT_BASE_URL = 'http://127.0.0.1:3000';
 
+// 이친구는 가장 일반적 요청
 export const login_api = async (data) => {
   const res = await baseApi.post('users/token/', {
     user_id: data.user_id,
@@ -107,6 +108,7 @@ export const myInfo = async () => {
   return data;
 };
 
+// 토큰이 만료되었을때
 export const getLevelApi = async () => {
   let level;
   await authenticatedApi(window.localStorage.getItem('access'))
@@ -133,19 +135,4 @@ export const getLevelApi = async () => {
       }
     });
   return level;
-};
-
-export const getLevelTestProbs = async () => {
-  let response;
-  await authenticatedApi(window.localStorage.getItem('access'))
-    .get('/level/level_test_probs/')
-    .then((res) => {
-      console.log('hi?');
-      response = res.data;
-    })
-    .catch((err) => {
-      console.err(err);
-      response = 'error';
-    });
-  return response;
 };
