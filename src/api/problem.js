@@ -58,3 +58,15 @@ export const getProblem = async () => {
 //     });
 //   return response;
 // };
+
+// 성모쓰
+export const userLevelProblemApi = async () => {
+  return await authenticatedApi(window.localStorage.getItem('access'))
+    .get('/problem/userLevel/')
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
