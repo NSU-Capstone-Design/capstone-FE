@@ -23,7 +23,7 @@ export const sign_up_api = async (data) => {
 
 export const check_token = async () => {
   const token = window.localStorage.getItem('access');
-  if (token !== undefined) {
+  if (Boolean(token) === true) {
     let result;
     await baseApi
       .post('/users/token/verify/', {
