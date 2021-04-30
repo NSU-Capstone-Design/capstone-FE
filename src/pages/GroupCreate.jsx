@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { check_token } from '../api/account';
 import { Redirect } from 'react-router-dom';
 import GroupCreateBox from '../containers/account/GroupCreateBox';
@@ -42,6 +42,7 @@ const useStyle = makeStyles({
 const GroupCreate = () => {
   const classes = useStyle();
   const [loginState, setLoginState] = useState('success');
+  const loginRes = useSelector((state) => state.account.status);
   useEffect(async () => {
     const res = await check_token();
     console.log(res);
