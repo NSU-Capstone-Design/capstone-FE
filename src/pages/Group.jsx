@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column-reverse',
     alignItems: 'center',
-    height: '100vh',
+    height: 'auto',
     backgroundColor: '#f2f1fc',
   },
   groupListWrap: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     alignItems: 'center',
     marginTop: '20vh',
     width: '50vw',
-    height: '80vh',
+    height: 'auto',
   },
   groupListContainer: {
     display: 'grid',
