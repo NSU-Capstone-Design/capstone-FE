@@ -25,7 +25,7 @@ const Root = () => {
         <Route path="/group" exact component={Group} />
         <Route path="/question" exact component={Question} />
         <Route path="/search" exact component={Search} />
-        <Route path="/problemDetail" exact component={ProblemDetail} />
+        <Route path="/problem/:prob_num" exact component={ProblemDetail} />
         <Redirect path="*" to="/" />
       </Switch>
     </BrowserRouter>
