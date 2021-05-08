@@ -51,6 +51,8 @@ export const check_token = async () => {
                 window.localStorage.removeItem('refresh');
                 window.location.href = FRONT_BASE_URL + '/login';
               });
+          } else if (err.response.status == 400) {
+            result = err.response.status;
           }
         } catch (e) {
           alert('현재 서버에서 장애가 있습니다. 잠시후 다시 이용해주세요 ㅜㅜ');

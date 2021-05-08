@@ -1,75 +1,112 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
 import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { getGroupList } from '../api/group';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   mainContainer: {
     display: 'flex',
     flexDirection: 'column-reverse',
     alignItems: 'center',
-    height: '100vh',
-    backgroundColor: '#eeeeee',
-  },
-  bodyWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    backgroundColor: 'white',
-    width: '100%',
-    height: '90vh',
-    marginTop: '30px',
-    borderTop: 'solid #cccccc 1px',
+    height: 'auto',
+    backgroundColor: '#f2f1fc',
   },
   groupListWrap: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: '20vh',
-    width: '50%',
-    height: '80vh',
+    width: 'auto',
+    height: 'auto',
   },
   groupListContainer: {
-    height: '100%',
-    width: '100%',
-  },
-  groupListBox: {
-    display: 'flex',
-    height: '20%',
-    width: '100%',
-    marginBottom: '4%',
+    display: 'grid',
+    gridTemplateColumns: '240px 240px 240px 240px',
+    gridTemplateRows: '20vh 20vh 20vh 20vh',
+    gridAutoFlow: 'row',
+    gridAutoRows: '20vh',
   },
   groupWrap: {
     display: 'flex',
     justifyContent: 'center',
-    width: '20%',
-    height: '100%',
+    width: '100%',
+    height: '90%',
   },
   groupBox: {
-    width: '60%',
+    width: '80%',
     height: '100%',
-    backgroundColor: 'white',
     boxShadow: '3px 3px 3px #9a9a9a',
+    backgroundColor: 'white',
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#dddddd',
+    },
   },
-  groupImg: {
+  linkStyle: {
+    color: 'black',
+    textDecoration: 'none',
+  },
+  groupName: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 'calc(30% - 1px)',
+    borderBottom: 'solid #aaaaaa 1px',
+    fontSize: '15pt',
+  },
+  groupIntro: {
+    display: '-webkit-box',
+    lineHeight: '1.4',
+    height: '7em',
+    width: 'calc(100% - 6px)',
+    padding: '0 1px 0 5px',
+    wordWrap: 'break-word',
+    whiteSpace: 'normal',
+    WebkitLineClamp: 5,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+  },
+  groupPlus: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: 'calc(65% - 1px)',
     borderBottom: 'solid #aaaaaa 1px',
-  },
-  groupName: {
-    height: '35%',
+    fontSize: '30pt',
   },
 });
+
+// 추후  useStyles 분리
+const GroupItem = ({ data }) => {
+  const classes = useStyles();
+  return (
+    <div className={classes.groupWrap}>
+      <div className={classes.groupBox}>
+        <Link to={`/group/${data.id}`} className={classes.linkStyle}>
+          <div className={classes.groupName}>{data.group_name}</div>
+          <div className={classes.groupIntro}>{data.introduce}</div>
+        </Link>
+      </div>
+    </div>
+  );
+};
 
 const Group = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const loginState = useSelector((state) => state.account.status);
+  const [groupList, setGroupList] = useState([
+    {
+      group_name: '',
+      introduce: '',
+      group_visible: true,
+      group_master: '',
+    },
+  ]);
   useEffect(async () => {
     const res = await check_token();
     if (res === 200) {
@@ -78,41 +115,36 @@ const Group = () => {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
     const gl = await getGroupList();
+    setGroupList(gl);
   }, []);
+
   return (
     <>
       <Header loginState={loginState} />
       <div className={classes.mainContainer}>
         <div className={classes.groupListWrap}>
           <div className={classes.groupListContainer}>
-            <div className={classes.groupListBox}>
-              <div className={classes.groupWrap}>
-                <div className={classes.groupBox}>
-                  <div className={classes.groupImg}>+</div>
-                  <div className={classes.groupName}></div>
-                </div>
+            <div className={classes.groupWrap}>
+              <div className={classes.groupBox}>
+                <Link to="/group/create/" className={classes.linkStyle}>
+                  <div className={classes.groupPlus}>+</div>
+                  <div className={classes.groupIntro}>그룹추가</div>
+                </Link>
               </div>
             </div>
-            <div className={classes.groupListBox}>
-              <div className={classes.groupWrap}>
-                <div className={classes.groupBox}></div>
-              </div>
-            </div>
-            <div className={classes.groupListBox}>
-              <div className={classes.groupWrap}>
-                <div className={classes.groupBox}></div>
-              </div>
-            </div>
-            <div className={classes.groupListBox}>
-              <div className={classes.groupWrap}>
-                <div className={classes.groupBox}></div>
-              </div>
-            </div>
+            {groupList.map((data) => (
+              <GroupItem data={data} />
+            ))}
           </div>
         </div>
       </div>
     </>
   );
 };
+
+//  {groupList.map((data) => (
+//  <GroupItem data={data} />
+//  ))}
+// 애로우펑션 뒤에 중괄호가 없으면 바로 리턴 실행
 
 export default Group;
