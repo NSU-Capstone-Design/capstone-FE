@@ -30,6 +30,7 @@ const Root = () => {
         <Route path="/search" exact component={Search} />
         <Route path="/problemDetail" exact component={ProblemDetail} />
         <Route path="/group/:id" exact component={GroupDetail} />
+        <Route path="/problem/:prob_num" exact component={ProblemDetail} />
         <Redirect path="*" to="/" />
       </Switch>
     </BrowserRouter>
