@@ -17,11 +17,9 @@ export const getGroupList = async () => {
   await authenticatedApi(window.localStorage.getItem('access'))
     .get('/groups/grouplist/')
     .then((gl) => {
-      console.log(gl, '_ldk');
       grouplist = gl.data;
     })
     .catch((err) => {
-      console.log(err);
       grouplist = 'error';
     });
   return grouplist;

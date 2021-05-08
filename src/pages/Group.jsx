@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: '20vh',
-    width: '50vw',
+    width: 'auto',
     height: 'auto',
   },
   groupListContainer: {
@@ -86,8 +86,10 @@ const GroupItem = ({ data }) => {
   return (
     <div className={classes.groupWrap}>
       <div className={classes.groupBox}>
-        <div className={classes.groupName}>{data.group_name}</div>
-        <div className={classes.groupIntro}>{data.introduce}</div>
+        <Link to={`/group/${data.id}`} className={classes.linkStyle}>
+          <div className={classes.groupName}>{data.group_name}</div>
+          <div className={classes.groupIntro}>{data.introduce}</div>
+        </Link>
       </div>
     </div>
   );
@@ -124,7 +126,7 @@ const Group = () => {
           <div className={classes.groupListContainer}>
             <div className={classes.groupWrap}>
               <div className={classes.groupBox}>
-                <Link to="/group/create" className={classes.linkStyle}>
+                <Link to="/group/create/" className={classes.linkStyle}>
                   <div className={classes.groupPlus}>+</div>
                   <div className={classes.groupIntro}>그룹추가</div>
                 </Link>
