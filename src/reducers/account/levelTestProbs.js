@@ -1,4 +1,4 @@
-import { getLevelTestProbs } from '../../api/account';
+import { getLevelTestProbs } from '../../api/levelTest';
 
 // LTP = Level Test Problems
 const GET_LTP = 'account/GET_LTP';
@@ -10,10 +10,36 @@ export const getLTP = () => async (dispatch) => {
   try {
     const { probs } = await getLevelTestProbs();
     console.log('levelTestProbs 성공');
+    const lastProbs = {
+      id: 'notice',
+      evaluation: '-',
+    };
 
+    // evaluation: '',
+    // id: '',
+    // number: '',
+    // problem: {
+    //   correct: '',
+    //   correct_answer_rate: '',
+    //   correct_people: '',
+    //   imgurl: '',
+    //   ioexam_set: [],
+    //   level: 1,
+    //   memory_limit: '',
+    //   prob_num: '',
+    //   problem_content: '',
+    //   problem_input: '',
+    //   problem_output: '',
+    //   submission: '',
+    //   timeout: ' ',
+    //   title: '',
+    // },
+    // user: '',
+    // weight: '',
+    const returnProbs = probs.concat(lastProbs);
     dispatch({
       type: GET_LTP_SUCCESS,
-      probs,
+      probs: returnProbs,
     });
   } catch (e) {
     console.log('levelTestProbs 실패', e);

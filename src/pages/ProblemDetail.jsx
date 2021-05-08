@@ -5,6 +5,7 @@ import CodeMirror from '../components/CodeMirror';
 import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
+import { getProblem } from '../api/problem';
 
 const useStyles = makeStyles({
   container: {
@@ -23,7 +24,9 @@ const useStyles = makeStyles({
 });
 
 const ProblemDetail = () => {
+  const [problem, setProblem] = useState({});
   const loginState = useSelector((state) => state.account.status);
+
   const dispatch = useDispatch();
   useEffect(async () => {
     const res = await check_token();
@@ -32,13 +35,14 @@ const ProblemDetail = () => {
     } else {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
+    const data = await getProblem();
   }, []);
   const classes = useStyles();
   return (
     <>
       <Header />
       <div className={classes.container}>
-        <div className={classes.contentBox}>문제 내용들 입력</div>
+        <div className={classes.contentBox}>내용</div>
         <div className={classes.codeBox}>
           <CodeMirror />
         </div>
