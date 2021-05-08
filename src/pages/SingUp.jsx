@@ -14,6 +14,29 @@ const useStyle = makeStyles({
     flexDirection: 'column',
     alignItems: 'center',
     height: '100vh',
+    backgroundColor: '#eeeeee',
+  },
+  bodyWrap: {
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    height: '75vh',
+    borderRadius: '25px',
+    marginTop: '100px',
+    boxShadow: '3px 3px 3px #9a9a9a',
+  },
+  bodyContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    height: '75%',
+    width: 'calc(100% - 50px)',
+  },
+  tmp: {
+    width: '50%',
+    height: '13%',
+    margin: '25px',
+    marginBottom: 0,
   },
 });
 
@@ -34,8 +57,12 @@ const Login = () => {
       <>
         <Header />
         <div className={classes.mainContainer}>
-          <div>회원가입</div>
-          <SignUpBox />
+          <div className={classes.bodyWrap}>
+            <div className={classes.bodyContainer}>
+              <img className={classes.tmp} src="/static/logo.png" alt="" />
+              <SignUpBox />
+            </div>
+          </div>
         </div>
       </>
     );

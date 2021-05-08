@@ -4,6 +4,7 @@ import account from './account/authenticate';
 import level from './account/level';
 import signup from './account/signUp';
 import levelTestProbs from './account/levelTestProbs';
+import groupCreate from './account/groupCreate';
 
 const rootReducer = combineReducers({
   todos,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   level,
   levelTestProbs,
   signup,
+  groupCreate,
 });
 
 export default rootReducer;
