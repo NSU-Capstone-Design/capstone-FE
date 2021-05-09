@@ -83,7 +83,6 @@ const Search = () => {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
-
   return (
     <>
       <TableContainer component={Paper}>
