@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import { classNames } from 'classnames';
+import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import '../../index.css';
 
 const useStyle = makeStyles({
@@ -29,6 +30,7 @@ const useStyle = makeStyles({
     position: 'absolute',
     top: 0,
     left: 0,
+    cursor: 'pointer',
   },
 });
 
@@ -39,7 +41,14 @@ const Modal = ({ children, close, state }) => {
       {state ? (
         <div className={classes.modalContainer}>
           <div onClick={close} className={classes.background}></div>
-          <div className={classes.modalBox}>{children}</div>
+          <div className={classes.modalBox}>
+            <HighlightOffRoundedIcon
+              color="disabled"
+              onClick={close}
+              style={{ cursor: 'pointer' }}
+            />
+            {children}
+          </div>
         </div>
       ) : (
         <></>
