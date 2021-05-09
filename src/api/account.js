@@ -1,4 +1,4 @@
-import { baseApi, authenticatedApi, autoRefreshGET } from './axiosApi';
+import { baseApi, authenticatedApi } from './axiosApi';
 
 export const FRONT_BASE_URL = 'http://127.0.0.1:3000';
 

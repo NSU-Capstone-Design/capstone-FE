@@ -22,7 +22,6 @@ const LoginSuccess = () => {
     else
       return (
         <>
-          <div>맞춤 문제{level}</div>
           <MainService />
         </>
       );

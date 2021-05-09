@@ -153,9 +153,11 @@ export default function HorizontalNonLinearStepper() {
     return ioExamList;
   };
   const copy = (e, id) => {
+    console.log(id);
     var tempElem = document.createElement('textarea');
     tempElem.value = document.getElementById(id).innerText;
     document.body.appendChild(tempElem);
+    console.log(tempElem.value);
 
     tempElem.select();
     document.execCommand('copy');
