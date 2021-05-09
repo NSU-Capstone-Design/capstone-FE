@@ -38,6 +38,9 @@ const useStyles = makeStyles({
       cursor: 'pointer',
     },
   },
+  probHeader: {
+    position: 'static',
+  },
 });
 
 const Search = () => {
@@ -83,9 +86,11 @@ const Search = () => {
   const changePage = ({ selected }) => {
     setPageNumber(selected);
   };
+
   return (
     <>
-      <TableContainer component={Paper}>
+      <Header />
+      <TableContainer component={Paper} style={{ marginTop: '60px' }}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead className={classes.tableHead}>
             <TableRow>

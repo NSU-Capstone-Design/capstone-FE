@@ -68,7 +68,7 @@ const Header = ({ loginState }) => {
 
           <div className={classes.subNav}>
             <Link to="/question">Q&A</Link>
-            <Link to="/search">문제찾기</Link>
+            <Link to="/search">문제</Link>
             <Link to="/group">그룹</Link>
             <Link to="/mypage">마이페이지</Link>
           </div>

@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100vw',
     height: 'calc(100vh - 60px)',
+    marginTop: '60px',
+    position: 'fixed',
   },
   contentBox: {
     width: '50vw',
@@ -126,6 +128,7 @@ const ProblemDetail = ({ history, location, match }) => {
 
   return (
     <>
+      <Header />
       <div className={classes.container}>
         <div className={classes.contentBox}>
           <>
