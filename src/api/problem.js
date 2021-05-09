@@ -3,20 +3,17 @@ import { refreshAccessToken } from './account';
 
 export const FRONT_BASE_URL = 'http://127.0.0.1:3000';
 
-export const getProblem = async () => {
-  let data;
-  await baseApi
-    .get('/problem/')
-    .then((res) => {
-      console.log(res);
-      data = res.data;
+export const getProbApi = async (prob_num) => {
+  return await baseApi
+    .get(`/problem/${prob_num}/`)
+    .then(({ data }) => {
+      return data;
     })
     .catch((err) => {
-      console.error(err, '에러발생!!');
+      console.log(err);
+      return false;
     });
-  return data;
 };
-
 // export const getLevelApi = async () => {
 //   let level;
 //   await authenticatedApi(window.localStorage.getItem('access'))
