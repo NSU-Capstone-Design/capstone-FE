@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
-import LoginBox from '../containers/account/LoginBox';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { check_token } from '../api/account';
 import { Redirect } from 'react-router-dom';
+import GroupCreateBox from '../containers/account/GroupCreateBox';
 import Header from '../components/Header';
-import SignUpBox from '../containers/account/SingUpBox';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -40,33 +39,34 @@ const useStyle = makeStyles({
   },
 });
 
-const Login = () => {
+const GroupCreate = () => {
   const classes = useStyle();
+  const [loginState, setLoginState] = useState('success');
   const loginRes = useSelector((state) => state.account.status);
-  const [loginState, setLoginState] = useState('fail');
   useEffect(async () => {
     const res = await check_token();
-    if (res === 200) {
-      setLoginState('success');
+    console.log(res);
+    if (res !== 200) {
+      setLoginState('fail');
     }
   }, []);
-  if (loginState === 'success' || loginRes === 'success') {
-    return <Redirect to="/main" />;
-  } else {
+  if (loginState === 'success') {
     return (
       <>
-        <Header />
+        <Header loginState={loginState} />
         <div className={classes.mainContainer}>
           <div className={classes.bodyWrap}>
             <div className={classes.bodyContainer}>
               <img className={classes.tmp} src="/static/logo.png" alt="" />
-              <SignUpBox />
+              <GroupCreateBox />
             </div>
           </div>
         </div>
       </>
     );
+  } else {
+    return <Redirect to="/login" />;
   }
 };
 
-export default Login;
+export default GroupCreate;
