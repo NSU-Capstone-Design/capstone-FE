@@ -27,22 +27,24 @@ export default function ({ ioexam, copy, activeStep, index }) {
               fontWeight: 500,
               color: '#10a0ff',
               cursor: 'pointer',
+              marginLeft: '5px',
             }}
             onClick={(e) => {
-              copy(e, `io${activeStep}${index}`);
+              copy(e, `io${activeStep}${index}1`);
             }}
           >
             복사
           </span>
         </div>
         <pre
-          id={`io${activeStep}${index}`}
+          id={`io${activeStep}${index}1`}
           style={{
             width: '90%',
             boxSizing: 'border-box',
             margin: '3px 5px',
             padding: '10px',
             border: '1px solid #a9a9a9',
+            overflowX: 'scroll',
           }}
         >
           {ioexam.input.value}
@@ -56,16 +58,17 @@ export default function ({ ioexam, copy, activeStep, index }) {
               fontWeight: 500,
               color: '#10a0ff',
               cursor: 'pointer',
+              marginLeft: '5px',
             }}
             onClick={(e) => {
-              copy(e, `io${activeStep}${index}`);
+              copy(e, `io${activeStep}${index}2`);
             }}
           >
             복사
           </span>
         </div>
         <pre
-          id={`io${activeStep}${index}`}
+          id={`io${activeStep}${index}2`}
           style={{
             width: '90%',
             boxSizing: 'border-box',
