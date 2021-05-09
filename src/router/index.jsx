@@ -28,6 +28,7 @@ const Root = () => {
         <Route path="/group/create" exact component={GroupCreate} />
         <Route path="/question" exact component={Question} />
         <Route path="/search" exact component={Search} />
+        <Route path="/problem/:prob_num" exact component={ProblemDetail} />
         <Route path="/problemDetail" exact component={ProblemDetail} />
         <Route path="/group/:id" exact component={GroupDetail} />
         <Redirect path="*" to="/" />
