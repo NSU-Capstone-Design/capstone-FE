@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { sign_up } from '../../reducers/account/signUp';
@@ -57,17 +57,22 @@ const useStyle = makeStyles({
 const SignUpBox = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordC, setPasswordC] = useState('');
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const classes = useStyle();
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state.signup.state);
+  const [pwState, setPWState] = useState(true);
   const idInputHandler = (e) => setId(e.target.value);
   const pwInputHandler = (e) => setPassword(e.target.value);
+  const passwordCHandler = (e) => setPasswordC(e.target.value);
   const emailInputHandler = (e) => setEmail(e.target.value);
   const nicknameInputHandler = (e) => setNickname(e.target.value);
+  console.log(state);
   const signUpHandler = () => {
+    console.log('hihi');
     const data = {
       user_id: id,
       email: email,
@@ -76,6 +81,13 @@ const SignUpBox = () => {
     };
     dispatch(sign_up(data));
   };
+  useEffect(() => {
+    if (password === passwordC) {
+      setPWState(true);
+    } else {
+      setPWState(false);
+    }
+  }, [password, passwordC]);
   if (state === 'success') {
     return <Redirect to="/login" />;
   } else {
@@ -88,7 +100,7 @@ const SignUpBox = () => {
             id="id"
             value={id}
             onChange={idInputHandler}
-            placeholder="사용자 아이디 또는 이메일"
+            placeholder="아이디"
           />
           <input
             className={classes.txtBox}
@@ -100,6 +112,14 @@ const SignUpBox = () => {
           />
           <input
             className={classes.txtBox}
+            type="email"
+            id="email"
+            value={email}
+            onChange={emailInputHandler}
+            placeholder="이메일"
+          />
+          <input
+            className={classes.txtBox}
             type="password"
             id="pw"
             value={password}
@@ -108,14 +128,17 @@ const SignUpBox = () => {
           />
           <input
             className={classes.txtBox}
-            type="pw_confirm"
+            type="password"
             id="pw_confirm"
-            value={email}
-            onChange={emailInputHandler}
+            value={passwordC}
+            onChange={passwordCHandler}
             placeholder="비밀번호 확인"
           />
+          {!pwState && (
+            <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>
+          )}
           <div className={classes.statusStyle}>
-            <span>{status}</span>
+            <span>{state}</span>
           </div>
         </div>
         <div className={classes.buttonContainer}>

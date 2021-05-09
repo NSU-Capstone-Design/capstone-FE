@@ -92,7 +92,6 @@ const Header = ({ loginState }) => {
           <div className={classes.subNav}>
             <Link to="/question">Q&A</Link>
             <Link to="/search">문제찾기</Link>
-            <Link to="/group">그룹</Link>
           </div>
           <div className={classes.accountBox}>
             <Link to="/login" onClick={logoutHandler}>
