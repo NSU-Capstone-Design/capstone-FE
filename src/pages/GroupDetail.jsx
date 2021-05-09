@@ -85,16 +85,33 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100px',
-    height: '100%',
+    height: 'calc(100% - 1)',
     borderRadius: '25px 25px 0 0',
     backgroundColor: 'yellow',
+    border: 'solid #aaaaaa 1px',
+    borderBottom: 0,
   },
-  notice: {
+  navSpace: {
+    height: 'calc(100% - 1px)',
+    width: 'calc(100% - 202px)',
+    borderBottom: 'solid #aaaaaa 1px',
+  },
+  noticeContainer: {
+    borderLeft: 'solid #aaaaaa 1px',
+    borderRight: 'solid #aaaaaa 1px',
+    borderBottom: 'solid #aaaaaa 1px',
+  },
+  noticeSpace: {
+    height: '10px',
+  },
+  noticeBox: {
     display: 'grid',
     gridTemplateColumns: '700px',
     gridTemplateRows: '200px',
     gridAutoFlow: 'row',
     gridAutoRows: '200px',
+    border: 'solid #aaaaaa 1px',
+    margin: '0 10px 20px 10px',
   },
 });
 
@@ -152,16 +169,18 @@ const GroupDetail = ({ match }) => {
           <div className={classes.bodyNav}>
             <div className={classes.navButton}>공지사항</div>
             <div className={classes.navButton}>문제</div>
+            <div className={classes.navSpace}>공백</div>
           </div>
-          <div className={classes.notice}>
-            이 구간 css는 추후 라우터 이동 예정
+          <div className={classes.noticeContainer}>
+            <div className={classes.noticeSpace}></div>
+            <div className={classes.noticeBox}>
+              이 구간 css는 추후 라우터 이동 예정
+            </div>
+            <div className={classes.noticeBox}>
+              잠시 적용 테스트겸 한 페이지에 몰아넣음
+            </div>
+            <div className={classes.noticeSpace}></div>
           </div>
-          <div className={classes.notice}>
-            잠시 적용 테스트겸 한 페이지에 몰아넣음
-          </div>
-          <div className={classes.notice}></div>
-          <div className={classes.notice}></div>
-          <div className={classes.notice}></div>
         </div>
         <div>{groupDetail.group_master}</div>
         <div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
-import {classNames} from 'classnames';
+import { classNames } from 'classnames';
 import '../../index.css';
 
 const useStyle = makeStyles({

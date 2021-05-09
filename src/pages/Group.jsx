@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
-import { check_token } from '../api/account';
+import { check_token, myInfo } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { getGroupList } from '../api/group';
@@ -99,6 +99,7 @@ const Group = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const loginState = useSelector((state) => state.account.status);
+  const [isExpertUser, defExpert] = useState(false);
   const [groupList, setGroupList] = useState([
     {
       group_name: '',
@@ -115,23 +116,33 @@ const Group = () => {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
     const gl = await getGroupList();
-    setGroupList(gl);
+    defExpert(gl[0].isExpertUser);
+    console.log('출력1: >>>>>>', gl[0]);
+    console.log('출력2: >>>>>>', gl[1]);
+    console.log('출력3: >>>>>>', gl[0].isExpertUser);
+    setGroupList(gl[1]);
   }, []);
 
+  // if (isExpertUser.expertUser) {
   return (
     <>
       <Header loginState={loginState} />
       <div className={classes.mainContainer}>
         <div className={classes.groupListWrap}>
           <div className={classes.groupListContainer}>
-            <div className={classes.groupWrap}>
-              <div className={classes.groupBox}>
-                <Link to="/group/create/" className={classes.linkStyle}>
-                  <div className={classes.groupPlus}>+</div>
-                  <div className={classes.groupIntro}>그룹추가</div>
-                </Link>
+            {isExpertUser ? (
+              <div className={classes.groupWrap}>
+                <div className={classes.groupBox}>
+                  <Link to="/group/create/" className={classes.linkStyle}>
+                    <div className={classes.groupPlus}>+</div>
+                    <div className={classes.groupIntro}>그룹추가</div>
+                  </Link>
+                </div>
               </div>
-            </div>
+            ) : (
+              <></>
+            )}
+
             {groupList.map((data) => (
               <GroupItem data={data} />
             ))}
@@ -140,6 +151,22 @@ const Group = () => {
       </div>
     </>
   );
+  // } else {
+  //   return (
+  //     <>
+  //       <Header loginState={loginState} />
+  //       <div className={classes.mainContainer}>
+  //         <div className={classes.groupListWrap}>
+  //           <div className={classes.groupListContainer}>
+  //             {groupList.map((data) => (
+  //               <GroupItem data={data} />
+  //             ))}
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </>
+  //   );
+  // }
 };
 
 //  {groupList.map((data) => (
