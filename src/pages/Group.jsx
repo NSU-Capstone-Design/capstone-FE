@@ -115,6 +115,7 @@ const Group = () => {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
     const gl = await getGroupList();
+    console.log('group list : >>', gl);
     setGroupList(gl);
   }, []);
 

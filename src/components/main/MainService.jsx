@@ -58,7 +58,7 @@ const useStyle = makeStyles((theme) => ({
     },
   },
 }));
-const ioExamZip = (ioExams) => {
+const ioExamZip = (ioExams = []) => {
   const ioExamList = [];
   let ioExamSet = {
     input: {},

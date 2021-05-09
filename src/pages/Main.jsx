@@ -7,6 +7,7 @@ import LoginSuccess from '../components/main/LoginSuccess';
 import Index from '../components/main/Index';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import { FRONT_BASE_URL } from '../api/account';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -27,8 +28,6 @@ const Main = () => {
     const res = await check_token();
     if (res === 200) {
       dispatch(success_check());
-    } else {
-      console.log('로그인 창으로'); // 또는 에러 안내
     }
   }, []);
   console.log('mainpage : ' + loginState);
