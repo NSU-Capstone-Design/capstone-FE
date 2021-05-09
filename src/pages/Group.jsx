@@ -117,9 +117,6 @@ const Group = () => {
     }
     const gl = await getGroupList();
     defExpert(gl[0].isExpertUser);
-    console.log('출력1: >>>>>>', gl[0]);
-    console.log('출력2: >>>>>>', gl[1]);
-    console.log('출력3: >>>>>>', gl[0].isExpertUser);
     setGroupList(gl[1]);
   }, []);
 
