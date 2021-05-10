@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { group_create } from '../../reducers/account/groupCreate';
 import { makeStyles } from '@material-ui/core';
+import { FRONT_BASE_URL } from '../../api/account';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -99,6 +100,7 @@ const GroupCreateBox = () => {
       group_visible: visible,
     };
     dispatch(group_create(data));
+    window.location.href = FRONT_BASE_URL + '/group';
   };
   return (
     <div className={classes.mainContainer}>
@@ -119,10 +121,6 @@ const GroupCreateBox = () => {
             placeholder="그룹 소개"
           />
         </div>
-      </div>
-      <div className={classes.visibleContainer}>
-        <label htmlFor="visible">비공개 : </label>
-        <input type="checkbox" value={visible} onChange={visibleInputHandler} />
       </div>
       <div className={classes.buttonContainer}>
         <button className={classes.buttonBox} onClick={groupCreateHandler}>
