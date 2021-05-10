@@ -72,6 +72,7 @@ const QuestionDetail = ({ match }) => {
       where: 'question',
     };
     await makeApi(data);
+    setComm('');
     close();
     dispatch(await getQAPost(match.params.id));
   };

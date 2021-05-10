@@ -47,6 +47,7 @@ const CommentBox = ({ comments, post_id }) => {
       where: 'comment',
     };
     await makeApi(data);
+    setComm('');
     close();
     dispatch(await getQAPost(post_id));
   };
