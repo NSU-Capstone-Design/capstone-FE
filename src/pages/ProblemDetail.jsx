@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
 }));
-const ProblemDetail = ({ history, location, match }) => {
+const ProblemDetail = ({ match }) => {
   const loginState = useSelector((state) => state.account.status);
 
   const dispatch = useDispatch();
