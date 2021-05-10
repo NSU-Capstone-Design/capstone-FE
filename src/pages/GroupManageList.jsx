@@ -7,7 +7,16 @@ import { success_check } from '../reducers/account/authenticate';
 import { getGroupManageList } from '../api/groupDetail';
 import { Link } from 'react-router-dom';
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  mainContainer: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    height: 'auto',
+    marginTop: '200px',
+    backgroundColor: '#f2f1fc',
+  },
+});
 
 const GroupManageList = ({ match }) => {
   const dispatch = useDispatch();
@@ -30,8 +39,18 @@ const GroupManageList = ({ match }) => {
     const gml = await getGroupManageList(match.params.id);
     setMeberList(gml);
     console.log(memberList);
-  });
-  return <></>;
+  }, []);
+  return (
+    <>
+      <Header loginState={loginState} />
+      {memberList.map((data) => (
+        <div className={classes.mainContainer}>
+          <div>{data.group_id.group_name}</div>
+          <div>{data.member.nickname}</div>
+        </div>
+      ))}
+    </>
+  );
 };
 
 export default GroupManageList;

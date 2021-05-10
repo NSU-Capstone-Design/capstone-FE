@@ -35,7 +35,7 @@ export const getGroupManageList = async (id) => {
   const token = window.localStorage.getItem('access');
   let groupmanagelist;
   await authenticatedApi(token)
-    .get(`grouplist/${id}/gmlist`)
+    .get(`groups/grouplist/${id}/gmlist`)
     .then((gml) => {
       groupmanagelist = gml.data;
     })
@@ -44,7 +44,7 @@ export const getGroupManageList = async (id) => {
         const accessToken = await refreshAccessToken();
         window.localStorage.setItem('access', accessToken);
         await authenticatedApi(window.localStorage.getItem('access'))
-          .get(`grouplist/${id}/gmlist`)
+          .get(`groups/grouplist/${id}/gmlist`)
           .then((gml) => {
             groupmanagelist = gml.data;
           })
@@ -53,7 +53,7 @@ export const getGroupManageList = async (id) => {
             //window.location.href = FRONT_BASE_URL + '/login';
           });
       } else {
-        console.log('아니면 여기 오류인가' + err.request.status);
+        console.log('아직도 여기 오류인가' + err.request.status);
         //window.location.href = FRONT_BASE_URL + '/login';
       }
     });

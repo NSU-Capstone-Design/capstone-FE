@@ -28,16 +28,17 @@ const useStyles = makeStyles({
     display: 'flex',
   },
   groupManagementContainer: {
-    display: 'flex',
     width: '240px',
-    height: '370px',
+    height: '367px',
     borderRadius: '5px',
     border: 'solid #aaaaaa 1px',
     margin: '0 30px 0 0',
+    backgroundColor: '#ffffff',
+    boxShadow: '3px 3px 3px #9a9a9a',
   },
   groupDetailContainer: {
     width: '230px',
-    margin: '0 auto 5px auto',
+    margin: '0 auto',
   },
   groupMaster: {
     height: '60px',
@@ -51,19 +52,34 @@ const useStyles = makeStyles({
     wordWrap: 'break-word',
     wordBreak: 'break-all',
     borderBottom: 'solid #aaaaaa 1px',
+    display: '-webkit-box',
+    lineHeight: '1.4',
+    whiteSpace: 'normal',
+    WebkitLineClamp: 11,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
   },
   memberManageContainer: {
     display: 'flex',
     height: '30px',
   },
-  memberManage1: {
+  linkStyle: {
+    color: 'black',
+    textDecoration: 'none',
     width: 'calc(60% - 30px)',
+    height: 'auto',
+    margin: 'auto',
+  },
+  memberManage1: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '15px',
     border: 'solid #aaaaaa 1px',
-    margin: 'auto',
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#dddddd',
+    },
   },
   memberManage2: {
     width: 'calc(60% - 28px)',
@@ -79,6 +95,10 @@ const useStyles = makeStyles({
     margin: 'auto',
     borderRadius: '15px',
     border: 'solid #aaaaaa 1px',
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#dddddd',
+    },
   },
   memberInviteIcon: {
     display: 'flex',
@@ -115,6 +135,7 @@ const useStyles = makeStyles({
     borderRadius: '25px 25px 0 0',
     border: 'solid #aaaaaa 1px',
     borderBottom: 0,
+    backgroundColor: '#ffffff',
   },
   navSpace: {
     height: 'calc(100% - 1px)',
@@ -125,6 +146,8 @@ const useStyles = makeStyles({
     borderLeft: 'solid #aaaaaa 1px',
     borderRight: 'solid #aaaaaa 1px',
     borderBottom: 'solid #aaaaaa 1px',
+    boxShadow: '3px 3px 3px #9a9a9a',
+    backgroundColor: '#ffffff',
   },
   noticeSpace: {
     height: '10px',
@@ -169,9 +192,7 @@ const GroupDetail = ({ match }) => {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
     const gd = await getGroupDetail(match.params.id);
-    console.log('test1: >>>', gd);
     setGroupDetail(gd);
-    console.log('test2: >>>', groupDetail);
   }, []);
 
   return (
@@ -187,13 +208,15 @@ const GroupDetail = ({ match }) => {
                   {groupDetail.group_master.nickname}님의 그룹
                 </div>
                 <div className={classes.groupIntroduce}>
-                  {groupDetail.introduce}정신 나갈거 같아 정신 나갈거 같아 정신
-                  나갈거 같아 정신 나갈거 같아 정신 나갈거 같아 정신 나갈거 같아
-                  정신 나갈거 같아 정신 나갈거 같아 정신 나갈거 같아 정신 나갈거
-                  같아 정신 나갈거 같아
+                  {groupDetail.introduce}
                 </div>
                 <div className={classes.memberManageContainer}>
-                  <div className={classes.memberManage1}>멤버관리</div>
+                  <Link
+                    to={`/group/${match.params.id}/memberManage/`}
+                    className={classes.linkStyle}
+                  >
+                    <div className={classes.memberManage1}>멤버관리</div>
+                  </Link>
                   <div className={classes.memberInviteContainer}>+초대</div>
                 </div>
                 <div className={classes.memberManageContainer}>
