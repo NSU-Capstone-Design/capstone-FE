@@ -152,17 +152,26 @@ const ProblemDetail = ({ match }) => {
                 </tbody>
               </table>
               <div className={classes.head}>문제</div>
-              <Typography className={classes.instructions}>
-                {probd.problem_content}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{
+                  __html: probd.problem_content,
+                }}
+                className={classes.instructions}
+              ></Typography>
               <div className={classes.head}>입력</div>
-              <Typography className={classes.instructions}>
-                {probd.problem_input}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{
+                  __html: probd.problem_input,
+                }}
+                className={classes.instructions}
+              ></Typography>
               <div className={classes.head}>출력</div>
-              <Typography className={classes.instructions}>
-                {probd.problem_output}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{
+                  __html: probd.problem_output,
+                }}
+                className={classes.instructions}
+              ></Typography>
 
               {ioExamZip(probd.ioexam_set).map((ioexam, index) => (
                 <IOExam ioexam={ioexam} copy={copy} index={index} />
