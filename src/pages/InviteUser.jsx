@@ -4,7 +4,11 @@ import Header from '../components/Header';
 import { check_token, myInfo, refreshAccessToken } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
-import { getGroupManageList, getGroupDetail } from '../api/groupDetail';
+import {
+  create_groupmanage_api,
+  getGroupDetail,
+  no_expert_groupIn_list,
+} from '../api/groupDetail';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -157,17 +161,12 @@ const useStyles = makeStyles({
     height: '10px',
   },
   noticeBox: {
-    display: 'grid',
-    gridTemplateColumns: '700px',
-    gridTemplateRows: '50px',
-    gridAutoFlow: 'row',
-    gridAutoRows: '50px',
-    margin: '0 10px 0 10px',
+    margin: '0 10px',
   },
   noticeContent: {
     display: 'grid',
-    gridTemplateColumns: '175px 175px 175px 175px ',
-    gridTemplateRows: '48px',
+    gridTemplateColumns: 'auto auto auto auto',
+    gridTemplateRows: '38px',
     border: 'solid #aaaaaa 1px',
     marginBottom: '10px',
   },
@@ -177,46 +176,67 @@ const useStyles = makeStyles({
     alignItems: 'center',
     height: '38px',
   },
+  inviteField: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '70px',
+    height: '28px',
+    margin: ' auto',
+    borderRadius: '5px',
+    border: 'none',
+    backgroundColor: '#ff6d6d',
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#cc6d6d',
+    },
+  },
 });
 
-const GroupManageList = ({ match }) => {
-  const dispatch = useDispatch();
+const InviteUser = ({ match }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const loginState = useSelector((state) => state.account.status);
-  const [memberList, setMeberList] = useState([
+  const [userList, setUserList] = useState([
     {
-      group_id: '',
-      member: {
-        nickname: '',
-        email: '',
-        expert_user: '',
-      },
-      status: '',
+      user_id: '',
+      email: '',
+      nickname: '',
     },
   ]);
-  const [User, setUser] = useState({
-    user_id: '',
-  });
   const [groupDetail, setGroupDetail] = useState({
     group_name: '',
     introduce: '',
     group_visible: true,
     group_master: '',
   });
+  const [User, setUser] = useState({
+    user_id: '',
+  });
+  const [groupManage, setMember] = useState({});
+  const MemberCreateHandler = (member, e) => {
+    console.log('맞나?', member);
+    const data = {
+      group_name: groupDetail.group_name,
+      group_master: groupDetail.group_master,
+      member: member,
+    };
+    create_groupmanage_api(data, match.params.id);
+  };
+
   useEffect(async () => {
     const res = await check_token();
     const userInfo = await myInfo();
     if (res === 200) {
       dispatch(success_check());
     } else {
-      console.log('로그인 창으로');
+      console.log('로그인 창으로'); // 또는 에러 안내
     }
-    const gml = await getGroupManageList(match.params.id);
     const gd = await getGroupDetail(match.params.id);
+    const ul = await no_expert_groupIn_list(gd);
     setGroupDetail(gd);
-    setMeberList(gml);
+    setUserList(ul);
     setUser(userInfo);
-    console.log('test: >>>', memberList);
   }, []);
   return (
     <>
@@ -267,28 +287,25 @@ const GroupManageList = ({ match }) => {
                   <div className={classes.gridTitle}>ID</div>
                   <div className={classes.gridTitle}>nickname</div>
                   <div className={classes.gridTitle}>email</div>
-                  <div className={classes.gridTitle}>status</div>
+                  <div className={classes.gridTitle}>초대하기</div>
                 </div>
               </div>
               <div className={classes.noticeContainer}>
                 <div className={classes.noticeSpace}></div>
                 <div className={classes.noticeBox}>
-                  {memberList.map((data) => (
+                  {userList.map((data) => (
                     <div className={classes.noticeContent}>
-                      <div className={classes.memberField}>
-                        {data.member.user_id}
-                      </div>
-                      <div className={classes.memberField}>
-                        {data.member.nickname}
-                      </div>
-                      <div className={classes.memberField}>
-                        {data.member.email}
-                      </div>
-                      {data.status ? (
-                        <div className={classes.memberField}>가입됨</div>
-                      ) : (
-                        <div className={classes.memberField}>가입 안됨</div>
-                      )}
+                      <div className={classes.memberField}>{data.user_id}</div>
+                      <div className={classes.memberField}>{data.nickname}</div>
+                      <div className={classes.memberField}>{data.email}</div>
+                      <button
+                        className={classes.inviteField}
+                        onClick={() => {
+                          MemberCreateHandler(data.user_id);
+                        }}
+                      >
+                        초대하기
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -302,4 +319,4 @@ const GroupManageList = ({ match }) => {
   );
 };
 
-export default GroupManageList;
+export default InviteUser;
