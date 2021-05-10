@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles, Divider, TextField, Button } from '@material-ui/core';
 import useModalEvent from '../hooks/useModalEvent';
 import { makeApi } from '../api/question';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getQAPost } from '../reducers/qaPost';
 
 //CSS
 const useStyle = makeStyles({
@@ -29,8 +30,9 @@ const useStyle = makeStyles({
 
 //HTML
 
-const CommentBox = ({ comments, replyPID = -1 }) => {
+const CommentBox = ({ comments, post_id }) => {
   const classes = useStyle();
+  const dispatch = useDispatch();
   const { post } = useSelector((state) => state.qaPost);
   const [reply, setReply] = useState(-1);
   const [modalState, setModalstate, open, close, ModalEvent] = useModalEvent(
@@ -41,12 +43,16 @@ const CommentBox = ({ comments, replyPID = -1 }) => {
     let data = {
       content: comm,
       object_id: post.id,
-      reply_to: replyPID,
+      reply_to: reply,
       where: 'comment',
     };
     await makeApi(data);
+    close();
+    dispatch(await getQAPost(post_id));
   };
-  const writeComment = (e) => {
+  const writeComment = (id, e) => {
+    console.log(id);
+    setReply(id);
     open();
   };
   return (
@@ -57,10 +63,7 @@ const CommentBox = ({ comments, replyPID = -1 }) => {
           return (
             <>
               <div className={classes.commentItemWrap}>
-                <div className={classes.commentUser}>
-                  {/* {comment.user_id.nickname} */}
-                </div>
-                :
+                <div className={classes.commentUser}>{comment.nickname}</div>:
                 <div className={classes.commentContent}>
                   {comment.content}
                   <span
@@ -78,13 +81,19 @@ const CommentBox = ({ comments, replyPID = -1 }) => {
                     marginLeft: '10px',
                     cursor: 'pointer',
                   }}
-                  onClick={writeComment}
+                  onClick={() => {
+                    writeComment(comment.id);
+                  }}
                 >
                   댓글달기
                 </span>
               </div>
               {comment.replies.length !== 0 && (
-                <CommentBox replyPID={comment.id} comments={comment.replies} />
+                <CommentBox
+                  replyPID={comment.id}
+                  comments={comment.replies}
+                  post_id={post_id}
+                />
               )}
               <Divider />
             </>

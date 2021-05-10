@@ -31,9 +31,8 @@ const initialState = {
       {
         id: 0,
         replies: [],
-        user_id: {
-          nickname: '',
-        },
+        user_id: 0,
+        nickname: '',
         object_id: 0,
         content: '',
         created_at: '',
