@@ -14,6 +14,7 @@ import ProblemDetail from '../pages/ProblemDetail';
 import GroupCreate from '../pages/GroupCreate';
 import SignUp from '../pages/SingUp';
 import GroupDetail from '../pages/GroupDetail';
+import GroupManageList from '../pages/GroupManageList';
 const useStyle = makeStyles({});
 
 const Root = () => {
@@ -35,6 +36,12 @@ const Root = () => {
         <Route path="/problem/:prob_num" exact component={ProblemDetail} />
         <Route path="/problemDetail" exact component={ProblemDetail} />
         <Route path="/group/:id" exact component={GroupDetail} />
+        <Route path="/problem/:prob_num" exact component={ProblemDetail} />
+        <Route
+          path="/group/:id/memberManage"
+          exact
+          component={GroupManageList}
+        />
         <Redirect path="*" to="/" />
       </Switch>
     </BrowserRouter>

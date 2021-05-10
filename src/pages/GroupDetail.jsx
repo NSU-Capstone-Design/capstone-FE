@@ -13,21 +13,34 @@ const useStyles = makeStyles({
     alignItems: 'flex-start',
     justifyContent: 'center',
     height: 'auto',
-    marginTop: '60px',
     backgroundColor: '#f2f1fc',
   },
   mainWrap: {
+    width: '70vw',
+  },
+  groupTitle: {
+    margin: '120px 0 60px 0',
+    height: '60px',
+    borderBottom: 'solid #aaaaaa 1px',
+    fontSize: '30pt',
+  },
+  appContainer: {
     display: 'flex',
+  },
+  groupManagementContainer: {
     width: '240px',
+    height: '367px',
     borderRadius: '5px',
     border: 'solid #aaaaaa 1px',
-    margin: '150px 30px 0 0',
+    margin: '0 30px 0 0',
+    backgroundColor: '#ffffff',
+    boxShadow: '3px 3px 3px #9a9a9a',
   },
   groupDetailContainer: {
     width: '230px',
-    margin: '0 auto 5px auto',
+    margin: '0 auto',
   },
-  groupTitle: {
+  groupMaster: {
     height: '60px',
     display: 'flex',
     justifyContent: 'center',
@@ -39,19 +52,53 @@ const useStyles = makeStyles({
     wordWrap: 'break-word',
     wordBreak: 'break-all',
     borderBottom: 'solid #aaaaaa 1px',
+    display: '-webkit-box',
+    lineHeight: '1.4',
+    whiteSpace: 'normal',
+    WebkitLineClamp: 11,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
   },
   memberManageContainer: {
     display: 'flex',
     height: '30px',
   },
-  memberManage: {
-    width: '60%',
+  linkStyle: {
+    color: 'black',
+    textDecoration: 'none',
+    width: 'calc(60% - 30px)',
+    height: 'auto',
+    margin: 'auto',
+  },
+  memberManage1: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: '15px',
+    border: 'solid #aaaaaa 1px',
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#dddddd',
+    },
+  },
+  memberManage2: {
+    width: 'calc(60% - 28px)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 'auto',
   },
   memberInviteContainer: {
     display: 'flex',
+    justifyContent: 'center',
+    width: 'calc(40% - 30px)',
+    margin: 'auto',
+    borderRadius: '15px',
+    border: 'solid #aaaaaa 1px',
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#dddddd',
+    },
   },
   memberInviteIcon: {
     display: 'flex',
@@ -74,7 +121,6 @@ const useStyles = makeStyles({
   },
   BodyContainer: {
     width: '720px',
-    margin: '150px 300px 0 0',
   },
   bodyNav: {
     display: 'flex',
@@ -87,9 +133,9 @@ const useStyles = makeStyles({
     width: '100px',
     height: 'calc(100% - 1)',
     borderRadius: '25px 25px 0 0',
-    backgroundColor: 'yellow',
     border: 'solid #aaaaaa 1px',
     borderBottom: 0,
+    backgroundColor: '#ffffff',
   },
   navSpace: {
     height: 'calc(100% - 1px)',
@@ -100,6 +146,8 @@ const useStyles = makeStyles({
     borderLeft: 'solid #aaaaaa 1px',
     borderRight: 'solid #aaaaaa 1px',
     borderBottom: 'solid #aaaaaa 1px',
+    boxShadow: '3px 3px 3px #9a9a9a',
+    backgroundColor: '#ffffff',
   },
   noticeSpace: {
     height: '10px',
@@ -107,11 +155,15 @@ const useStyles = makeStyles({
   noticeBox: {
     display: 'grid',
     gridTemplateColumns: '700px',
-    gridTemplateRows: '200px',
+    gridTemplateRows: '200px 200px 200px 200px 200px',
     gridAutoFlow: 'row',
     gridAutoRows: '200px',
-    border: 'solid #aaaaaa 1px',
     margin: '0 10px 20px 10px',
+  },
+  noticeContent: {
+    width: '100%',
+    height: '180px',
+    border: 'solid #aaaaaa 1px',
   },
 });
 
@@ -140,9 +192,7 @@ const GroupDetail = ({ match }) => {
       console.log('로그인 창으로'); // 또는 에러 안내
     }
     const gd = await getGroupDetail(match.params.id);
-    setGroupDetail(gd[0]);
-    setGroupManageList(gd[1]);
-    console.log(gd);
+    setGroupDetail(gd);
   }, []);
 
   return (
@@ -150,46 +200,48 @@ const GroupDetail = ({ match }) => {
       <Header loginState={loginState} />
       <div className={classes.mainContainer}>
         <div className={classes.mainWrap}>
-          <div className={classes.groupDetailContainer}>
-            <div className={classes.groupTitle}>{groupDetail.group_master}</div>
-            <div className={classes.groupIntroduce}>
-              {groupDetail.introduce}
-            </div>
-            <div className={classes.memberManageContainer}>
-              <div className={classes.memberManage}>멤버관리</div>
-              <div className={classes.memberInviteContainer}>
-                <div className={classes.memberInviteIcon}>+</div>
-                <div className={classes.memberInviteLabel}>초대</div>
+          <div className={classes.groupTitle}>{groupDetail.group_name}</div>
+          <div className={classes.appContainer}>
+            <div className={classes.groupManagementContainer}>
+              <div className={classes.groupDetailContainer}>
+                <div className={classes.groupMaster}>
+                  {groupDetail.group_master.nickname}님의 그룹
+                </div>
+                <div className={classes.groupIntroduce}>
+                  {groupDetail.introduce}
+                </div>
+                <div className={classes.memberManageContainer}>
+                  <Link
+                    to={`/group/${match.params.id}/memberManage/`}
+                    className={classes.linkStyle}
+                  >
+                    <div className={classes.memberManage1}>멤버관리</div>
+                  </Link>
+                  <div className={classes.memberInviteContainer}>+초대</div>
+                </div>
+                <div className={classes.memberManageContainer}>
+                  <div className={classes.memberManage2}></div>
+                  <div className={classes.memberInviteContainer}>설정</div>
+                </div>
               </div>
             </div>
-            <div className={classes.groupSetting}>설정</div>
-          </div>
-        </div>
-        <div className={classes.BodyContainer}>
-          <div className={classes.bodyNav}>
-            <div className={classes.navButton}>공지사항</div>
-            <div className={classes.navButton}>문제</div>
-            <div className={classes.navSpace}>공백</div>
-          </div>
-          <div className={classes.noticeContainer}>
-            <div className={classes.noticeSpace}></div>
-            <div className={classes.noticeBox}>
-              이 구간 css는 추후 라우터 이동 예정
+            <div className={classes.BodyContainer}>
+              <div className={classes.bodyNav}>
+                <div className={classes.navButton}>공지사항</div>
+                <div className={classes.navButton}>문제</div>
+                <div className={classes.navSpace}></div>
+              </div>
+              <div className={classes.noticeContainer}>
+                <div className={classes.noticeSpace}></div>
+                <div className={classes.noticeBox}>
+                  <div className={classes.noticeContent}>
+                    이 구간 css는 추후 라우터 이동 예정
+                  </div>
+                </div>
+                <div className={classes.noticeSpace}></div>
+              </div>
             </div>
-            <div className={classes.noticeBox}>
-              잠시 적용 테스트겸 한 페이지에 몰아넣음
-            </div>
-            <div className={classes.noticeSpace}></div>
           </div>
-        </div>
-        <div>{groupDetail.group_master}</div>
-        <div>
-          {groupManageList.map((data) => (
-            <div>
-              <div>{data.group_id}</div>
-              <div>{data.member.nickname}</div>
-            </div>
-          ))}
         </div>
       </div>
     </>

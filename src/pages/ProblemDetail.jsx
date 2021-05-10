@@ -3,6 +3,7 @@ import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { getProbApi, getProblem } from '../api/problem';
+import { baseApi } from '../api/axiosApi';
 import { Button, makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
 import CodeMirror from '../components/CodeMirror';
@@ -78,13 +79,12 @@ const ProblemDetail = ({ history, location, match }) => {
   }, []);
   const classes = useStyles();
 
-  const ioExamZip = (ioExams) => {
+  const ioExamZip = (ioExams = []) => {
     const ioExamList = [];
     let ioExamSet = {
       input: {},
       output: {},
     };
-    console.log('ioexams', ioExams);
     let map = new Map();
     ioExams &&
       ioExams.map((io, key) => {
@@ -128,9 +128,9 @@ const ProblemDetail = ({ history, location, match }) => {
 
   return (
     <>
-      <Header />
       <div className={classes.container}>
         <div className={classes.contentBox}>
+
           <>
             <div className={classes.contentBody}>
               <h1 className={classes.title}>{probd.title}</h1>
