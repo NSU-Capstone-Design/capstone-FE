@@ -164,3 +164,44 @@ export const decreaseLevelApi = async () => {
       return false;
     });
 };
+export const myCorrectProbsApi = async () => {
+  return await authenticatedApi(window.localStorage.getItem('access'))
+    .get('/solved_problem/correct_probs/')
+    .then((res) => res.data)
+    .catch(async (err) => {
+      if (err.request.status === 401) {
+        const accessToken = await refreshAccessToken();
+        window.localStorage.setItem('access', accessToken);
+        return await authenticatedApi(window.localStorage.getItem('access'))
+          .get('/solved_problem/correct_probs/')
+          .then((res) => {
+            return res.data;
+          })
+          .catch(async (err) => {
+            return [];
+          });
+      }
+      return [];
+    });
+};
+
+export const myPassProbsApi = async () => {
+  return await authenticatedApi(window.localStorage.getItem('access'))
+    .get('/solved_problem/pass_probs/')
+    .then((res) => res.data)
+    .catch(async (err) => {
+      if (err.request.status === 401) {
+        const accessToken = await refreshAccessToken();
+        window.localStorage.setItem('access', accessToken);
+        return await authenticatedApi(window.localStorage.getItem('access'))
+          .get('/solved_problem/pass_probs/')
+          .then((res) => {
+            return res.data;
+          })
+          .catch(async (err) => {
+            return [];
+          });
+      }
+      return [];
+    });
+};

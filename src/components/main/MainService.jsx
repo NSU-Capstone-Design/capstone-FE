@@ -58,7 +58,7 @@ const useStyle = makeStyles((theme) => ({
     },
   },
 }));
-const ioExamZip = (ioExams) => {
+const ioExamZip = (ioExams = []) => {
   const ioExamList = [];
   let ioExamSet = {
     input: {},
@@ -190,9 +190,10 @@ export default function () {
               </table>
               <h2 className={classes.title}>{problem.title}</h2>
               <div className={classes.head}>문제</div>
-              <Typography className={classes.instructions}>
-                {problem.problem_content}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{ __html: problem.problem_contents }}
+                className={classes.instructions}
+              ></Typography>
               <div className={classes.head}>입력</div>
               <Typography className={classes.instructions}>
                 {problem.problem_input}

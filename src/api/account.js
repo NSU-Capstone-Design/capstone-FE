@@ -138,3 +138,24 @@ export const getLevelApi = async () => {
     });
   return level;
 };
+
+export const withdrawalApi = async () => {
+  return await authenticatedApi(window.localStorage.getItem('access'))
+    .post('/users/withdrawal/')
+    .then((res) => true)
+    .catch(async (err) => {
+      if (err.request.status === 401) {
+        const accessToken = await refreshAccessToken();
+        window.localStorage.setItem('access', accessToken);
+        return await authenticatedApi(window.localStorage.getItem('access'))
+          .post('/users/withdrawal/')
+          .then((res) => {
+            return true;
+          })
+          .catch(async (err) => {
+            return false;
+          });
+      }
+      return false;
+    });
+};

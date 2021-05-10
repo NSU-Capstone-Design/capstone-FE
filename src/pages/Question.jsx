@@ -4,26 +4,128 @@ import Header from '../components/Header';
 import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
+import { baseApi } from '../api/axiosApi';
+import ReactPaginate from 'react-paginate';
+import { Link } from 'react-router-dom';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+  tableHead: {
+    backgroundColor: '#fd8083',
+  },
+  paginationBttns: {
+    display: 'flex',
+    width: '80%',
+    height: '40px',
+    justifyContent: 'center',
+    listStyle: 'none',
+    cursor: 'pointer',
+    '& a': {
+      padding: '10px',
+      margin: '8px',
+      borderRadius: '5px',
+      border: '1px solid #fd8083',
+      color: '#fd8083',
+      cursor: 'pointer',
+    },
+  },
+});
+
+function displayedAt(createdAt) {
+  const milliSeconds = new Date() - createdAt;
+  const seconds = milliSeconds / 1000;
+  if (seconds < 60) return `방금 전`;
+  const minutes = seconds / 60;
+  if (minutes < 60) return `${Math.floor(minutes)}분 전`;
+  const hours = minutes / 60;
+  if (hours < 24) return `${Math.floor(hours)}시간 전`;
+  const days = hours / 24;
+  if (days < 7) return `${Math.floor(days)}일 전`;
+  const weeks = days / 7;
+  if (weeks < 5) return `${Math.floor(weeks)}주 전`;
+  const months = days / 30;
+  if (months < 12) return `${Math.floor(months)}개월 전`;
+  const years = days / 365;
+  return `${Math.floor(years)}년 전`;
+}
 
 const Question = () => {
   const loginState = useSelector((state) => state.account.status);
-  const dispatch = useDispatch();
+  const classes = useStyles();
+  const [post, setPost] = useState([{ total_page: 1 }]);
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const pageCount = post[0].total_page;
 
   useEffect(async () => {
-    const res = await check_token();
-    if (res === 200) {
-      dispatch(success_check());
-    } else {
-      console.log('로그인 창으로'); // 또는 에러 안내
-    }
+    await baseApi
+      .get('/question/getlist/?page=1')
+      .then(({ data }) => setPost(data));
   }, []);
-  const classes = useStyles();
+
+  const displayList = post.slice(1).map((post, idx) => {
+    if (post.content !== undefined) {
+      post.fromDate = displayedAt(new Date(post.created_at));
+    }
+
+    return (
+      <TableRow key={post.id}>
+        <TableCell component="th" scope="row">
+          {post.prob_num}
+        </TableCell>
+        <Link to={`question/${post.id}`}>
+          <TableCell align="center">{post.subject}</TableCell>
+        </Link>
+        <TableCell align="right">{post.nickname}</TableCell>
+        <TableCell align="right">{post.fromDate}</TableCell>
+        <TableCell align="right">{post.post_hit}</TableCell>
+      </TableRow>
+    );
+  });
+
+  const changePage = async ({ selected }) => {
+    setPost([{ total_page: 0 }]);
+    await baseApi
+      .get('/question/getlist/?page=' + (parseInt(selected) + 1))
+      .then(({ data }) => setPost(data));
+    setPageNumber(selected);
+  };
+
   return (
     <>
       <Header loginState={loginState} />
-      <div>질문 게시판 리스트</div>
+      <div id="questions" style={{ margin: '100px' }}>
+        <TableContainer component={Paper}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead className={classes.tableHead}>
+              <TableRow>
+                <TableCell>문제 번호</TableCell>
+                <TableCell align="center">제목</TableCell>
+                <TableCell align="right">작성자</TableCell>
+                <TableCell align="right">작성일</TableCell>
+                <TableCell align="right">조회</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{displayList}</TableBody>
+          </Table>
+        </TableContainer>
+        <ReactPaginate
+          previousLabel={'이전'}
+          nextLabel={'다음'}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={classes.paginationBttns}
+        />
+      </div>
     </>
   );
 };

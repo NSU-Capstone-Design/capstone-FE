@@ -8,6 +8,8 @@ import Login from '../pages/Login';
 import Group from '../pages/Group';
 import Search from '../pages/Search';
 import Question from '../pages/Question';
+import QuestionDetail from '../pages/QuestionDetail';
+import QuestionWrite from '../pages/QuestionWrite';
 import ProblemDetail from '../pages/ProblemDetail';
 import GroupCreate from '../pages/GroupCreate';
 import SignUp from '../pages/SingUp';
@@ -27,8 +29,11 @@ const Root = () => {
         <Route path="/subpage" exact component={SubPage} />
         <Route path="/group" exact component={Group} />
         <Route path="/group/create" exact component={GroupCreate} />
-        <Route path="/question" exact component={Question} />
+        <Route path="/questions" exact component={Question} />
+        <Route path="/question/:id" exact component={QuestionDetail} />
+        <Route path="/question/write" exact component={QuestionWrite} />
         <Route path="/search" exact component={Search} />
+        <Route path="/problem/:prob_num" exact component={ProblemDetail} />
         <Route path="/problemDetail" exact component={ProblemDetail} />
         <Route path="/group/:id" exact component={GroupDetail} />
         <Route path="/problem/:prob_num" exact component={ProblemDetail} />

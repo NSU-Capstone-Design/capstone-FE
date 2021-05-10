@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     backgroundColor: 'rgb(0,0,0,0.5)',
   },
   text: {
-    fontSize: '25px',
+    fontSize: '40px',
     margin: '10px',
   },
   startBtn: {
@@ -36,6 +36,7 @@ const useStyles = makeStyles({
     position: 'relative',
     width: '100%',
     height: '600px',
+    marginTop: '150px',
     '& .main-img-box1': {
       width: '800px',
       borderRadius: '5px',
@@ -53,10 +54,76 @@ const useStyles = makeStyles({
     },
   },
   whiteText: {
-    marginTop: '20px',
+    position: 'absolute',
+    left: '-500px',
+    top: '400px',
+    marginTop: '10px',
     color: 'white',
-    fontSize: '25px',
+    fontSize: '30px',
     fontWeight: 600,
+  },
+  whiteText2: {
+    position: 'absolute',
+    left: '-450px',
+    top: '200px',
+    marginTop: '10px',
+    color: 'white',
+    fontSize: '40px',
+    fontWeight: 600,
+  },
+  detailText1: {
+    position: 'absolute',
+    left: '-470px',
+    top: '480px',
+    marginTop: '10px',
+    color: 'white',
+    fontSize: '15px',
+    fontWeight: 300,
+  },
+  detailText2: {
+    position: 'absolute',
+    left: '-470px',
+    top: '520px',
+    marginTop: '10px',
+    color: 'white',
+    fontSize: '15px',
+    fontWeight: 300,
+  },
+  detailText3: {
+    position: 'relative',
+    width: '450px',
+    top: '280px',
+    right: '-830px',
+    color: 'white',
+    fontSize: '15px',
+    fontWeight: 300,
+  },
+  detailText4: {
+    position: 'relative',
+    width: '450px',
+    top: '300px',
+    right: '-830px',
+    color: 'white',
+    fontSize: '15px',
+    fontWeight: 300,
+  },
+  detailText5: {
+    position: 'relative',
+    width: '450px',
+    top: '-220px',
+    right: '380px',
+    color: 'white',
+    fontSize: '15px',
+    fontWeight: 300,
+  },
+  detailText6: {
+    position: 'relative',
+    width: '450px',
+    top: '-200px',
+    right: '380px',
+    color: 'white',
+    fontSize: '15px',
+    fontWeight: 300,
   },
 });
 
@@ -68,8 +135,8 @@ const LoginSuccess = () => {
     <>
       <div className={classes.videoWrap}>
         <div className={classes.blackCover}>
-          <div className={classes.text}>용희야 어떤 문구가 좋을까??</div>
-          <div className={classes.text}>지금 바로 서비스를 시작해 보아요!</div>
+          <div className={classes.text}>하루에 한문제씩</div>
+          <div className={classes.text}>오늘의 문제</div>
           <Link to="/login" className={classes.startBtn}>
             <Button variant="contained" color="secondary">
               지금 시작하기
@@ -90,15 +157,15 @@ const LoginSuccess = () => {
       <div className={classes.row1}>
         <div
           style={{
-            backgroundColor: '#313131',
-            height: '250px',
+            backgroundColor: '#595E68',
+            height: '400px',
             width: '70%',
             marginTop: '300px',
           }}
         ></div>
         <div className="main-img-box1">
           <img
-            src="/static/img1.png"
+            src="/static/test_page.png"
             alt=""
             style={{
               width: '100%',
@@ -107,8 +174,16 @@ const LoginSuccess = () => {
             }}
           />
           <div className={classes.whiteText}>
-            <span style={{ color: '#ff7b00' }}>01. </span>대충 문제를 이런식으로
-            풀어볼수 있다는걸 보여주자
+            <span style={{ color: '#ff7b00' }}>01. </span>하루에 한문제씩
+            <span style={{ color: '#FE8282' }}> 오늘의 문제!</span>
+          </div>
+          <div className={classes.detailText1}>
+            <span style={{ color: '#ff7b00' }}></span>하루에 한문제씩 수준별로
+            추천되는 문제를 풀며
+          </div>
+          <div className={classes.detailText2}>
+            <span style={{ color: '#ff7b00' }}></span> 알고리즘 실력을
+            높여보세요
           </div>
         </div>
       </div>
@@ -117,15 +192,15 @@ const LoginSuccess = () => {
           style={{
             position: 'absolute',
             backgroundColor: '#313131',
-            height: '250px',
+            height: '400px',
             width: '70%',
-            marginTop: '300px',
+            marginTop: '200px',
             right: '1px',
           }}
         ></div>
         <div className="main-img-box2">
           <img
-            src="/static/duck.png"
+            src="/static/group_pages.png"
             alt=""
             style={{
               position: 'absolute',
@@ -139,15 +214,54 @@ const LoginSuccess = () => {
             style={{
               position: 'relative',
               width: '450px',
-              top: '300px',
-              right: '-420px',
+              top: '250px',
+              right: '-780px',
               color: 'white',
-              fontSize: '25px',
+              fontSize: '40px',
               fontWeight: 600,
             }}
           >
-            <span style={{ color: '#ff7b00' }}>01. </span>대충 문제를 이런식으로
-            풀어볼수 있다는걸 보여주자
+            <span style={{ color: '#ff7b00' }}>02. </span>그룹 생성
+          </div>
+          <div className={classes.detailText3}>
+            <span style={{ color: '#ff7b00' }}></span> 그룹 생성후 인원들을
+            초대하여
+          </div>
+          <div className={classes.detailText4}>
+            <span style={{ color: '#ff7b00' }}></span> 원하는 인원들과 소통할 수
+            있습니다
+          </div>
+        </div>
+        <div className={classes.row1}>
+          <div
+            style={{
+              backgroundColor: '#5B5A82',
+              height: '600px',
+              width: '100%',
+              marginTop: '400px',
+            }}
+          ></div>
+          <div className="main-img-box1">
+            <img
+              src="/static/question.png"
+              alt=""
+              style={{
+                width: '70%',
+                borderRadius: '5px',
+                boxShadow: '-1px 5px 18px 0px rgba(0,0,0,0.75)',
+              }}
+            />
+            <div className={classes.whiteText2}>
+              <span style={{ color: '#ff7b00' }}>03. </span>질문게시판
+            </div>
+            <div className={classes.detailText5}>
+              <span style={{ color: '#ff7b00' }}></span>코딩 중 모르는 문제가
+              있다면
+            </div>
+            <div className={classes.detailText6}>
+              <span style={{ color: '#ff7b00' }}></span> 질문하기를 눌러
+              바로바로 질문해보세요!
+            </div>
           </div>
         </div>
       </div>

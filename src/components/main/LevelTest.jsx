@@ -213,9 +213,13 @@ export default function HorizontalNonLinearStepper() {
             levelTestProblemsList[activeStep].id !== 'notice' ? (
               <div>
                 <div className={classes.head1}>문제</div>
-                <Typography className={classes.instructions}>
-                  {levelTestProblemsList[activeStep].problem.problem_content}
-                </Typography>
+                <Typography
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      levelTestProblemsList[activeStep].problem.problem_content,
+                  }}
+                  className={classes.instructions}
+                ></Typography>
                 <div className={classes.head1}>입력</div>
                 <Typography className={classes.instructions}>
                   {levelTestProblemsList[activeStep].problem.problem_input}
