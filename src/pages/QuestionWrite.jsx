@@ -26,15 +26,16 @@ const useStyles = makeStyles({
   },
 });
 
-const Question = () => {
+const Question = ({ match }) => {
   const loginState = useSelector((state) => state.account.status);
   const dispatch = useDispatch();
   const classes = useStyles();
   const [post, setPost] = useState('');
   const [subject, setSubject] = useState('');
-  const [problemId, setProblemId] = useState('');
+  const [problemId, setProblemId] = useState(match.params.id);
 
   useEffect(async () => {
+    console.log(match);
     const res = await check_token();
     if (res === 200) {
       dispatch(success_check());

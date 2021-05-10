@@ -56,10 +56,10 @@ const QuestionDetail = ({ match }) => {
   const classes = useStyles();
   useEffect(async () => {
     dispatch(await getQAPost(match.params.id));
-    console.log(post, 'pd');
-    // const postData = await qaDetailApi(match.params.id);
-    // console.log('postData : ', postData);
-    // setPost(postData);
+    const res = await check_token();
+    if (res === 200) {
+      dispatch(success_check());
+    }
   }, []);
   const [modalState, setModalstate, open, close, ModalEvent] = useModalEvent(
     false

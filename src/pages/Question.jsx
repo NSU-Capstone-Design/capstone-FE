@@ -76,6 +76,7 @@ const writeNewPost = () => {
 };
 
 const Question = () => {
+  const dispatch = useDispatch();
   const loginState = useSelector((state) => state.account.status);
   const classes = useStyles();
   const [post, setPost] = useState([{ total_page: 1 }]);
@@ -87,6 +88,10 @@ const Question = () => {
     await baseApi
       .get('/question/getlist/?page=1')
       .then(({ data }) => setPost(data));
+    const res = await check_token();
+    if (res === 200) {
+      dispatch(success_check());
+    }
   }, []);
 
   const displayList = post.slice(1).map((post, idx) => {

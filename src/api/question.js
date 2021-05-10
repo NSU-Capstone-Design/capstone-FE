@@ -55,3 +55,24 @@ export const makeApi = async (data) => {
       return false;
     });
 };
+
+export const myQuestionsApi = async () => {
+  return await authenticatedApi(window.localStorage.getItem('access'))
+    .get('/users/myQuestions/')
+    .then((res) => res.data)
+    .catch(async (err) => {
+      if (err.request.status === 401) {
+        const accessToken = await refreshAccessToken();
+        window.localStorage.setItem('access', accessToken);
+        return await authenticatedApi(window.localStorage.getItem('access'))
+          .get('/users/myQuestions/')
+          .then((res) => {
+            return res.data;
+          })
+          .catch(async (err) => {
+            return [];
+          });
+      }
+      return [];
+    });
+};
