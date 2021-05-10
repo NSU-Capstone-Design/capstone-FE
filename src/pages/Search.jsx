@@ -89,7 +89,7 @@ const Search = () => {
 
   return (
     <>
-      <Header />
+      <Header loginState={loginState} />
       <TableContainer component={Paper} style={{ marginTop: '60px' }}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead className={classes.tableHead}>
