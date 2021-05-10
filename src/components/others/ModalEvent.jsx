@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
-<<<<<<< HEAD
 import { classNames } from 'classnames';
-=======
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
->>>>>>> 71feec4 (메인 서비스 완료)
 import '../../index.css';
 
 const useStyle = makeStyles({
