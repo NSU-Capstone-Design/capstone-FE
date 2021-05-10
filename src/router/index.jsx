@@ -37,7 +37,7 @@ const Root = () => {
           <Route path="/group" exact component={Group} />
           <Route path="/group/create" exact component={GroupCreate} />
           <Route path="/question" exact component={Question} />
-          <Route path="/question/:id" exact component={QuestionDetail} />
+          <Route path="/question/:id(\d+)" exact component={QuestionDetail} />
           <Route path="/question/write" exact component={QuestionWrite} />
           <Route path="/search" exact component={Search} />
           <Route path="/problem/:prob_num" exact component={ProblemDetail} />
