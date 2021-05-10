@@ -8,12 +8,6 @@ import Header from '../components/Header';
 import CodeMirror from '../components/CodeMirror';
 import Typography from '@material-ui/core/Typography';
 import IOExam from '../components/main/IOExam';
-import { getUserLevelProb } from '../reducers/userLevelProb';
-import useModalEvent from '../hooks/useModalEvent';
-import ProbEvaluate from '../components/main/ProbEvaluate';
-import LoadingSpinner from '../components/others/LoadingSpinner';
-import ChangeLevel from '../components/main/ChangeLevel';
-import { increaseLevelApi } from '../api/problem';
 
 const useStyles = makeStyles((theme) => ({
   container: {
