@@ -35,7 +35,7 @@ export const getGroupManageList = async (id) => {
   const token = window.localStorage.getItem('access');
   let groupmanagelist;
   await authenticatedApi(token)
-    .get(`/groups/grouplist/${id}/gmlist`)
+    .get(`/groups/grouplist/${id}/gmlist/`)
     .then((gml) => {
       groupmanagelist = gml.data;
     })
@@ -90,4 +90,40 @@ export const no_expert_groupIn_list = async (data) => {
     });
 
   return userlist;
+};
+
+export const create_groupmanage_api = async (data, id) => {
+  console.log(data);
+  console.log(id);
+  const token = window.localStorage.getItem('access');
+  let res_data;
+  await authenticatedApi(token)
+    .post(`/groups/grouplist/${id}/gmlist/`, {
+      group_id: data.group_name,
+      group_master: data.group_master,
+      member: data.member,
+    })
+    .then((res_d) => {
+      res_data = res_d;
+    })
+    .catch(async (err) => {
+      if (err.request.status === 401) {
+        const accessToken = await refreshAccessToken();
+        window.localStorage.setItem('access', accessToken);
+        await authenticatedApi(window.localStorage.getItem('access'))
+          .post(`/groups/grouplist/${id}/gmlist/`, {
+            group_id: data.group_name,
+            group_master: data.group_master,
+            member: data.member,
+          })
+          .then((ul) => {})
+          .catch((err) => {
+            console.log('api.groupDetail-Error: >>>' + err);
+          });
+      } else {
+        console.log('아니면 여기 오류인가' + err.request.status);
+      }
+    });
+
+  return res_data;
 };
