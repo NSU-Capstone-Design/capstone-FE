@@ -87,7 +87,7 @@ const Question = ({ match }) => {
               id="content"
               label="내용"
               multiline
-              rows={4}
+              rows={30}
               variant="outlined"
               style={{ width: '400px', marginTop: '20px' }}
               value={post}
