@@ -35,7 +35,7 @@ export const getGroupManageList = async (id) => {
   const token = window.localStorage.getItem('access');
   let groupmanagelist;
   await authenticatedApi(token)
-    .get(`groups/grouplist/${id}/gmlist`)
+    .get(`/groups/grouplist/${id}/gmlist`)
     .then((gml) => {
       groupmanagelist = gml.data;
     })
@@ -44,7 +44,7 @@ export const getGroupManageList = async (id) => {
         const accessToken = await refreshAccessToken();
         window.localStorage.setItem('access', accessToken);
         await authenticatedApi(window.localStorage.getItem('access'))
-          .get(`groups/grouplist/${id}/gmlist`)
+          .get(`/groups/grouplist/${id}/gmlist`)
           .then((gml) => {
             groupmanagelist = gml.data;
           })
@@ -58,4 +58,36 @@ export const getGroupManageList = async (id) => {
       }
     });
   return groupmanagelist;
+};
+
+export const no_expert_groupIn_list = async (data) => {
+  const token = window.localStorage.getItem('access');
+  let userlist;
+  await authenticatedApi(token)
+    .post('/users/userList/', {
+      group_name: data.group_name,
+    })
+    .then((ul) => {
+      userlist = ul.data;
+    })
+    .catch(async (err) => {
+      if (err.request.status === 401) {
+        const accessToken = await refreshAccessToken();
+        window.localStorage.setItem('access', accessToken);
+        await authenticatedApi(window.localStorage.getItem('access'))
+          .post('/users/userList/', {
+            group_name: data.group_name,
+          })
+          .then((ul) => {
+            userlist = ul.data;
+          })
+          .catch((err) => {
+            console.log('api.groupDetail-Error: >>>' + err);
+          });
+      } else {
+        console.log('아니면 여기 오류인가' + err.request.status);
+      }
+    });
+
+  return userlist;
 };

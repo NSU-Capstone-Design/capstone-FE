@@ -79,7 +79,7 @@ const useStyle = makeStyles({
   },
 });
 
-const LoginBox = () => {
+const GroupCreateBox = () => {
   const classes = useStyle();
   const [group_name, setId] = useState('');
   const [introduce, setPassword] = useState('');
@@ -129,4 +129,4 @@ const LoginBox = () => {
   );
 };
 
-export default LoginBox;
+export default GroupCreateBox;

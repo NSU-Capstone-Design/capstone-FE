@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import { check_token, myInfo, refreshAccessToken } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
-import { getGroupManageList, getGroupDetail } from '../api/groupDetail';
+import { getGroupDetail, no_expert_groupIn_list } from '../api/groupDetail';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -179,29 +179,25 @@ const useStyles = makeStyles({
   },
 });
 
-const GroupManageList = ({ match }) => {
-  const dispatch = useDispatch();
+const InviteUser = ({ match }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const loginState = useSelector((state) => state.account.status);
-  const [memberList, setMeberList] = useState([
+  const [userList, setUserList] = useState([
     {
-      group_id: '',
-      member: {
-        nickname: '',
-        email: '',
-        expert_user: '',
-      },
-      status: '',
+      user_id: '',
+      email: '',
+      nickname: '',
     },
   ]);
-  const [User, setUser] = useState({
-    user_id: '',
-  });
   const [groupDetail, setGroupDetail] = useState({
     group_name: '',
     introduce: '',
     group_visible: true,
     group_master: '',
+  });
+  const [User, setUser] = useState({
+    user_id: '',
   });
   useEffect(async () => {
     const res = await check_token();
@@ -209,14 +205,14 @@ const GroupManageList = ({ match }) => {
     if (res === 200) {
       dispatch(success_check());
     } else {
-      console.log('로그인 창으로');
+      console.log('로그인 창으로'); // 또는 에러 안내
     }
-    const gml = await getGroupManageList(match.params.id);
     const gd = await getGroupDetail(match.params.id);
+    const ul = await no_expert_groupIn_list(gd);
     setGroupDetail(gd);
-    setMeberList(gml);
+    setUserList(ul);
     setUser(userInfo);
-    console.log('test: >>>', memberList);
+    console.log(ul);
   }, []);
   return (
     <>
@@ -273,22 +269,11 @@ const GroupManageList = ({ match }) => {
               <div className={classes.noticeContainer}>
                 <div className={classes.noticeSpace}></div>
                 <div className={classes.noticeBox}>
-                  {memberList.map((data) => (
+                  {userList.map((data) => (
                     <div className={classes.noticeContent}>
-                      <div className={classes.memberField}>
-                        {data.member.user_id}
-                      </div>
-                      <div className={classes.memberField}>
-                        {data.member.nickname}
-                      </div>
-                      <div className={classes.memberField}>
-                        {data.member.email}
-                      </div>
-                      {data.status ? (
-                        <div className={classes.memberField}>가입됨</div>
-                      ) : (
-                        <div className={classes.memberField}>가입 안됨</div>
-                      )}
+                      <div className={classes.memberField}>{data.user_id}</div>
+                      <div className={classes.memberField}>{data.nickname}</div>
+                      <div className={classes.memberField}>{data.email}</div>
                     </div>
                   ))}
                 </div>
@@ -302,4 +287,4 @@ const GroupManageList = ({ match }) => {
   );
 };
 
-export default GroupManageList;
+export default InviteUser;
