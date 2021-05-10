@@ -73,9 +73,11 @@ const Search = () => {
           <TableCell component="th" scope="row">
             {probs.prob_num}
           </TableCell>
-          <Link to={`problem/${probs.prob_num}`} align="right">
-            {probs.title}
-          </Link>
+          <TableCell align="center">
+            <Link to={`problem/${probs.prob_num}`} align="right">
+              {probs.title}
+            </Link>
+          </TableCell>
           <TableCell align="right">{probs.correct_people}</TableCell>
           <TableCell align="right">{probs.submission}</TableCell>
           <TableCell align="right">{probs.correct_answer_rate}</TableCell>
@@ -95,7 +97,7 @@ const Search = () => {
           <TableHead className={classes.tableHead}>
             <TableRow>
               <TableCell>문제 번호</TableCell>
-              <TableCell align="right">제목</TableCell>
+              <TableCell align="center">제목</TableCell>
               <TableCell align="right">맞은 사람</TableCell>
               <TableCell align="right">제출</TableCell>
               <TableCell align="right">정답 비율</TableCell>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { Button, makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
-import { check_token } from '../api/account';
+import { check_token, FRONT_BASE_URL } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { baseApi } from '../api/axiosApi';
@@ -38,6 +38,19 @@ const useStyles = makeStyles({
       cursor: 'pointer',
     },
   },
+  newBtnDiv: {
+    margin: '20px 20px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  footerBox: {
+    margin: '20px 20px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 function displayedAt(createdAt) {
@@ -58,6 +71,10 @@ function displayedAt(createdAt) {
   return `${Math.floor(years)}년 전`;
 }
 
+const writeNewPost = () => {
+  window.location.href = FRONT_BASE_URL + '/question/write';
+};
+
 const Question = () => {
   const loginState = useSelector((state) => state.account.status);
   const classes = useStyles();
@@ -76,15 +93,14 @@ const Question = () => {
     if (post.content !== undefined) {
       post.fromDate = displayedAt(new Date(post.created_at));
     }
-
     return (
       <TableRow key={post.id}>
         <TableCell component="th" scope="row">
           {post.prob_num}
         </TableCell>
-        <Link to={`question/${post.id}`}>
-          <TableCell align="center">{post.subject}</TableCell>
-        </Link>
+        <TableCell align="center">
+          <Link to={`question/${post.id}`}>{post.subject}</Link>
+        </TableCell>
         <TableCell align="right">{post.nickname}</TableCell>
         <TableCell align="right">{post.fromDate}</TableCell>
         <TableCell align="right">{post.post_hit}</TableCell>
@@ -103,7 +119,7 @@ const Question = () => {
   return (
     <>
       <Header loginState={loginState} />
-      <div id="questions" style={{ margin: '100px' }}>
+      <div id="questions" style={{ marginTop: '60px' }}>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead className={classes.tableHead}>
@@ -118,13 +134,22 @@ const Question = () => {
             <TableBody>{displayList}</TableBody>
           </Table>
         </TableContainer>
-        <ReactPaginate
-          previousLabel={'이전'}
-          nextLabel={'다음'}
-          pageCount={pageCount}
-          onPageChange={changePage}
-          containerClassName={classes.paginationBttns}
-        />
+        {loginState === 'success' && (
+          <div className={classes.newBtnDiv}>
+            <Button color="primary" variant="contained" onClick={writeNewPost}>
+              새글쓰기
+            </Button>
+          </div>
+        )}
+        <div className={classes.footerBox}>
+          <ReactPaginate
+            previousLabel={'이전'}
+            nextLabel={'다음'}
+            pageCount={pageCount}
+            onPageChange={changePage}
+            containerClassName={classes.paginationBttns}
+          />
+        </div>
       </div>
     </>
   );
