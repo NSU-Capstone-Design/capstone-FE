@@ -191,7 +191,7 @@ export default function () {
               <h2 className={classes.title}>{problem.title}</h2>
               <div className={classes.head}>문제</div>
               <Typography
-                dangerouslySetInnerHTML={{ __html: problem.problem_contents }}
+                dangerouslySetInnerHTML={{ __html: problem.problem_content }}
                 className={classes.instructions}
               ></Typography>
               <div className={classes.head}>입력</div>
