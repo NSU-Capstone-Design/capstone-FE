@@ -9,7 +9,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import { FRONT_BASE_URL } from '../api/group';
+import { FRONT_BASE_URL } from '../api/account';
 import useModalEvent from '../hooks/useModalEvent';
 import { success_check } from '../reducers/account/authenticate';
 import { check_token } from '../api/account';
