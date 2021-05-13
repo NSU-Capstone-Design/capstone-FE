@@ -1,7 +1,6 @@
 import { baseApi, authenticatedApi, autoRefreshGET } from './axiosApi';
 import { refreshAccessToken } from './account';
-export const FRONT_BASE_URL =
-  'http://capstone-design.s3-website.ap-northeast-2.amazonaws.com';
+import { FRONT_BASE_URL } from './account';
 
 export const group_create_api = async (data) => {
   const token = window.localStorage.getItem('access');
