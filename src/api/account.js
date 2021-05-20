@@ -1,7 +1,8 @@
 import { baseApi, authenticatedApi } from './axiosApi';
 
-export const FRONT_BASE_URL = 'http://localhost:3000';
-// 'http://capstone-design.s3-website.ap-northeast-2.amazonaws.com';
+// export const FRONT_BASE_URL = 'http://localhost:3000';
+export const FRONT_BASE_URL =
+  'http://capstone-design.s3-website.ap-northeast-2.amazonaws.com';
 
 // 이친구는 가장 일반적 요청
 export const login_api = async (data) => {

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { group_create } from '../../reducers/account/groupCreate';
 import { makeStyles } from '@material-ui/core';
 import { FRONT_BASE_URL } from '../../api/account';
+import { group_create_api } from '../../api/group';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -93,14 +94,18 @@ const GroupCreateBox = () => {
   const titleInputHandler = (e) => setId(e.target.value);
   const introduceInputHandler = (e) => setPassword(e.target.value);
   const visibleInputHandler = (e) => setVisible(e.target.value);
-  const groupCreateHandler = () => {
+  const groupCreateHandler = async () => {
     const data = {
       group_name: group_name,
       introduce: introduce,
       group_visible: visible,
     };
-    dispatch(group_create(data));
-    window.location.href = FRONT_BASE_URL + '/group';
+    const result = await group_create_api(data);
+    if (result) {
+      window.location.href = FRONT_BASE_URL + '/group';
+    } else {
+      alert('잠시후 다시 이용해 주세요.');
+    }
   };
   return (
     <div className={classes.mainContainer}>
