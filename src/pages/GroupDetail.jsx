@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
-import { check_token, refreshAccessToken } from '../api/account';
+import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { getGroupDetail } from '../api/groupDetail';
@@ -177,13 +177,6 @@ const GroupDetail = ({ match }) => {
     group_visible: true,
     group_master: '',
   });
-  const [groupManageList, setGroupManageList] = useState([
-    {
-      group_id: '',
-      member: '',
-      status: false,
-    },
-  ]);
   useEffect(async () => {
     const res = await check_token();
     if (res === 200) {

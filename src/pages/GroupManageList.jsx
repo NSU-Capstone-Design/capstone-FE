@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
-import { check_token, refreshAccessToken } from '../api/account';
+import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { getGroupManageList } from '../api/groupDetail';
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   mainContainer: {
@@ -36,8 +35,11 @@ const GroupManageList = ({ match }) => {
     } else {
       console.log('로그인 창으로');
     }
+    console.log('error1');
     const gml = await getGroupManageList(match.params.id);
+    console.log('error2');
     setMeberList(gml);
+    console.log('error3');
     console.log(memberList);
   }, []);
   return (

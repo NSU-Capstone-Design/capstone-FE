@@ -6,7 +6,7 @@ export const getGroupDetail = async (id) => {
   const token = window.localStorage.getItem('access');
   let groupdetail;
   await authenticatedApi(token)
-    .get(`/groups/grouplist/${id}`)
+    .get(`/groups/grouplist/${id}/`)
     .then((gd) => {
       groupdetail = gd.data;
     })
@@ -15,7 +15,7 @@ export const getGroupDetail = async (id) => {
         const accessToken = await refreshAccessToken();
         window.localStorage.setItem('access', accessToken);
         await authenticatedApi(window.localStorage.getItem('access'))
-          .get(`/groups/grouplist/${id}`)
+          .get(`/groups/grouplist/${id}/`)
           .then((gd) => {
             groupdetail = gd.data;
           })
@@ -35,7 +35,7 @@ export const getGroupManageList = async (id) => {
   const token = window.localStorage.getItem('access');
   let groupmanagelist;
   await authenticatedApi(token)
-    .get(`groups/grouplist/${id}/gmlist`)
+    .get(`groups/grouplist/${id}/gmlist/`)
     .then((gml) => {
       groupmanagelist = gml.data;
     })
@@ -44,7 +44,7 @@ export const getGroupManageList = async (id) => {
         const accessToken = await refreshAccessToken();
         window.localStorage.setItem('access', accessToken);
         await authenticatedApi(window.localStorage.getItem('access'))
-          .get(`groups/grouplist/${id}/gmlist`)
+          .get(`groups/grouplist/${id}/gmlist/`)
           .then((gml) => {
             groupmanagelist = gml.data;
           })

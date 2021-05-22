@@ -130,7 +130,6 @@ const ProblemDetail = ({ history, location, match }) => {
     <>
       <div className={classes.container}>
         <div className={classes.contentBox}>
-
           <>
             <div className={classes.contentBody}>
               <h1 className={classes.title}>{probd.title}</h1>
