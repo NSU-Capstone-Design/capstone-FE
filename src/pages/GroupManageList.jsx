@@ -211,6 +211,7 @@ const GroupManageList = ({ match }) => {
     } else {
       console.log('로그인 창으로');
     }
+    console.log('error1');
     const gml = await getGroupManageList(match.params.id);
     const gd = await getGroupDetail(match.params.id);
     setGroupDetail(gd);
