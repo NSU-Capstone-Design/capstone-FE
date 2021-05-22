@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { refreshAccessToken, FRONT_BASE_URL } from './account';
 
-// export const BASE_URL = 'http://localhost:8000';
-export const BASE_URL =
-  'http://ec2-15-164-220-141.ap-northeast-2.compute.amazonaws.com:8080';
+export const BASE_URL = 'http://localhost:8000';
+// export const BASE_URL =
+//   'http://ec2-15-164-220-141.ap-northeast-2.compute.amazonaws.com:8080';
 
 export const baseApi = axios.create({
   baseURL: BASE_URL,
