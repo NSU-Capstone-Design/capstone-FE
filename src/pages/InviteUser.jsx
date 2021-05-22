@@ -213,15 +213,21 @@ const InviteUser = ({ match }) => {
   const [User, setUser] = useState({
     user_id: '',
   });
-  const [groupManage, setMember] = useState({});
-  const MemberCreateHandler = (member, e) => {
+  const MemberCreateHandler = (member) => {
     console.log('맞나?', member);
     const data = {
+      id: match.params.id,
       group_name: groupDetail.group_name,
       group_master: groupDetail.group_master,
       member: member,
     };
-    create_groupmanage_api(data, match.params.id);
+    const result = create_groupmanage_api(data, match.params.id);
+    if (result) {
+      alert('초대가 완료되었습니다.');
+      window.location.reload();
+    } else {
+      alert('초대기능에 문제가 있는 점 죄송합니다.');
+    }
   };
 
   useEffect(async () => {
