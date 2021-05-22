@@ -58,37 +58,39 @@ const CommentBox = ({ comments, post_id }) => {
   };
   return (
     <div className={classes.commentBox}>
-      <Divider />
       <div>
         {comments.map((comment) => {
           return (
             <>
-              <div className={classes.commentItemWrap}>
-                <div className={classes.commentUser}>{comment.nickname}</div>:
-                <div className={classes.commentContent}>
-                  {comment.content}
+              <>
+                <div className={classes.commentItemWrap}>
+                  <div className={classes.commentUser}>{comment.nickname}</div>:
+                  <div className={classes.commentContent}>
+                    {comment.content}
+                    <span
+                      style={{
+                        color: '#7c7c7c',
+                        marginLeft: '10px',
+                      }}
+                    >
+                      {comment.created_at.slice(2, 10)}
+                    </span>
+                  </div>
                   <span
                     style={{
                       color: '#7c7c7c',
                       marginLeft: '10px',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => {
+                      writeComment(comment.id);
                     }}
                   >
-                    {comment.created_at.slice(2, 10)}
+                    댓글달기
                   </span>
                 </div>
-                <span
-                  style={{
-                    color: '#7c7c7c',
-                    marginLeft: '10px',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    writeComment(comment.id);
-                  }}
-                >
-                  댓글달기
-                </span>
-              </div>
+                <Divider />
+              </>
               {comment.replies.length !== 0 && (
                 <CommentBox
                   replyPID={comment.id}
@@ -96,7 +98,6 @@ const CommentBox = ({ comments, post_id }) => {
                   post_id={post_id}
                 />
               )}
-              <Divider />
             </>
           );
         })}
