@@ -191,17 +191,19 @@ export default function () {
               <h2 className={classes.title}>{problem.title}</h2>
               <div className={classes.head}>문제</div>
               <Typography
-                dangerouslySetInnerHTML={{ __html: problem.problem_contents }}
+                dangerouslySetInnerHTML={{ __html: problem.problem_content }}
                 className={classes.instructions}
               ></Typography>
               <div className={classes.head}>입력</div>
-              <Typography className={classes.instructions}>
-                {problem.problem_input}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{ __html: problem.problem_input }}
+                className={classes.instructions}
+              ></Typography>
               <div className={classes.head}>출력</div>
-              <Typography className={classes.instructions}>
-                {problem.problem_output}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{ __html: problem.problem_output }}
+                className={classes.instructions}
+              ></Typography>
 
               {ioExamZip(problem.ioexam_set).map((ioexam, index) => (
                 <IOExam ioexam={ioexam} copy={copy} index={index} />

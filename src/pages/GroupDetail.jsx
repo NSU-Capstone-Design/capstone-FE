@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
-import { check_token } from '../api/account';
+import { check_token, myInfo, refreshAccessToken } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { getGroupDetail } from '../api/groupDetail';
@@ -63,11 +63,21 @@ const useStyles = makeStyles({
     display: 'flex',
     height: '30px',
   },
-  linkStyle: {
+  linkStyle1: {
     color: 'black',
     textDecoration: 'none',
     width: 'calc(60% - 30px)',
     height: 'auto',
+    margin: 'auto',
+  },
+  linkStyle2: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'black',
+    textDecoration: 'none',
+    width: 'calc(40% - 30px)',
+    height: '100%',
     margin: 'auto',
   },
   memberManage1: {
@@ -88,7 +98,19 @@ const useStyles = makeStyles({
     alignItems: 'center',
     margin: 'auto',
   },
-  memberInviteContainer: {
+  memberInviteContainer1: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    margin: 'auto',
+    borderRadius: '15px',
+    border: 'solid #aaaaaa 1px',
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#dddddd',
+    },
+  },
+  memberInviteContainer2: {
     display: 'flex',
     justifyContent: 'center',
     width: 'calc(40% - 30px)',
@@ -99,19 +121,6 @@ const useStyles = makeStyles({
     '&:hover': {
       backgroundColor: '#dddddd',
     },
-  },
-  memberInviteIcon: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '30px',
-    height: '30px',
-  },
-  memberInviteLabel: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 'calc(100% - 30px)',
   },
   groupSetting: {
     display: 'flex',
@@ -177,8 +186,12 @@ const GroupDetail = ({ match }) => {
     group_visible: true,
     group_master: '',
   });
+  const [User, setUser] = useState({
+    user_id: '',
+  });
   useEffect(async () => {
     const res = await check_token();
+    const userInfo = await myInfo();
     if (res === 200) {
       dispatch(success_check());
     } else {
@@ -186,6 +199,7 @@ const GroupDetail = ({ match }) => {
     }
     const gd = await getGroupDetail(match.params.id);
     setGroupDetail(gd);
+    setUser(userInfo);
   }, []);
 
   return (
@@ -203,19 +217,32 @@ const GroupDetail = ({ match }) => {
                 <div className={classes.groupIntroduce}>
                   {groupDetail.introduce}
                 </div>
-                <div className={classes.memberManageContainer}>
-                  <Link
-                    to={`/group/${match.params.id}/memberManage/`}
-                    className={classes.linkStyle}
-                  >
-                    <div className={classes.memberManage1}>멤버관리</div>
-                  </Link>
-                  <div className={classes.memberInviteContainer}>+초대</div>
-                </div>
-                <div className={classes.memberManageContainer}>
-                  <div className={classes.memberManage2}></div>
-                  <div className={classes.memberInviteContainer}>설정</div>
-                </div>
+                {User.user_id == groupDetail.group_master.user_id ? (
+                  <div>
+                    <div className={classes.memberManageContainer}>
+                      <Link
+                        to={`/group/${match.params.id}/memberManage/`}
+                        className={classes.linkStyle1}
+                      >
+                        <div className={classes.memberManage1}>멤버관리</div>
+                      </Link>
+                      <Link
+                        to={`/group/${match.params.id}/invite/`}
+                        className={classes.linkStyle2}
+                      >
+                        <div className={classes.memberInviteContainer1}>
+                          +초대
+                        </div>
+                      </Link>
+                    </div>
+                    <div className={classes.memberManageContainer}>
+                      <div className={classes.memberManage2}></div>
+                      <div className={classes.memberInviteContainer2}>설정</div>
+                    </div>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
             <div className={classes.BodyContainer}>

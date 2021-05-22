@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { myInfo, withdrawalApi } from '../api/account';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Header from '../components/Header';
 import { makeStyles, Grid, Card, Button } from '@material-ui/core';
 import { myCorrectProbsApi, myPassProbsApi } from '../api/problem';
+import { myQuestionsApi } from '../api/question';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import { FRONT_BASE_URL } from '../api/group';
+import { FRONT_BASE_URL } from '../api/account';
 import useModalEvent from '../hooks/useModalEvent';
-import { Redirect } from 'react-router-dom';
+import { success_check } from '../reducers/account/authenticate';
+import { check_token } from '../api/account';
 
 const useStyles = makeStyles({
   mypageWrap: {
@@ -61,6 +62,7 @@ function ListItemLink(props) {
 }
 
 const Mypage = () => {
+  const dispatch = useDispatch();
   const [userInfo, setUserInfo] = useState({
     email: '',
     user_id: '',
@@ -82,18 +84,36 @@ const Mypage = () => {
       correct: true,
     },
   ]);
+  const [myQList, setMyQList] = useState([
+    {
+      id: 0,
+      user_id: 0,
+      prob_num: 0,
+      subject: '',
+      content: '',
+      created_at: '',
+      updated_at: '',
+      post_hit: 0,
+    },
+  ]);
   const [modalState, setModalstate, open, close, ModalEvent] = useModalEvent(
     false
   );
   const classes = useStyles();
   const loginState = useSelector((state) => state.account.status);
   useEffect(async () => {
+    const res = await check_token();
+    if (res === 200) {
+      dispatch(success_check());
+    }
     const data = await myInfo();
     const sl = await myCorrectProbsApi();
     const pl = await myPassProbsApi();
+    const mq = await myQuestionsApi();
     setCorrectList(sl);
     setPassList(pl);
-    console.log(data);
+    setMyQList(mq);
+    console.log(mq);
     setUserInfo(data);
   }, []);
   const withdrawal = async () => {
@@ -221,8 +241,14 @@ const Mypage = () => {
               <Card className={classes.cardContainer}>
                 <div className={classes.navTitle}>내가 남긴 질문</div>
                 <Divider />
-
-                {correctList.length === 0 && (
+                {myQList.map((qi) => {
+                  return (
+                    <ListItemLink href={`${FRONT_BASE_URL}/question/${qi.id}`}>
+                      <ListItemText primary={qi.subject} />
+                    </ListItemLink>
+                  );
+                })}
+                {myQList.length === 0 && (
                   <div style={{ margin: '20px 10px', color: '#979797' }}>
                     아직 데이터가 없습니다 :)
                   </div>

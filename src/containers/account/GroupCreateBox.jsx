@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { group_create } from '../../reducers/account/groupCreate';
 import { makeStyles } from '@material-ui/core';
+import { FRONT_BASE_URL } from '../../api/account';
+import { group_create_api } from '../../api/group';
 
 const useStyle = makeStyles({
   mainContainer: {
@@ -72,6 +74,10 @@ const useStyle = makeStyles({
     color: 'white',
     border: 'none',
     outline: 0,
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#cc6d6d',
+    },
   },
   signUpContainer: {
     marginTop: '15px',
@@ -79,7 +85,7 @@ const useStyle = makeStyles({
   },
 });
 
-const LoginBox = () => {
+const GroupCreateBox = () => {
   const classes = useStyle();
   const [group_name, setId] = useState('');
   const [introduce, setPassword] = useState('');
@@ -88,13 +94,18 @@ const LoginBox = () => {
   const titleInputHandler = (e) => setId(e.target.value);
   const introduceInputHandler = (e) => setPassword(e.target.value);
   const visibleInputHandler = (e) => setVisible(e.target.value);
-  const groupCreateHandler = () => {
+  const groupCreateHandler = async () => {
     const data = {
       group_name: group_name,
       introduce: introduce,
       group_visible: visible,
     };
-    dispatch(group_create(data));
+    const result = await group_create_api(data);
+    if (result) {
+      window.location.href = FRONT_BASE_URL + '/group';
+    } else {
+      alert('잠시후 다시 이용해 주세요.');
+    }
   };
   return (
     <div className={classes.mainContainer}>
@@ -116,10 +127,6 @@ const LoginBox = () => {
           />
         </div>
       </div>
-      <div className={classes.visibleContainer}>
-        <label htmlFor="visible">비공개 : </label>
-        <input type="checkbox" value={visible} onChange={visibleInputHandler} />
-      </div>
       <div className={classes.buttonContainer}>
         <button className={classes.buttonBox} onClick={groupCreateHandler}>
           생성
@@ -129,4 +136,4 @@ const LoginBox = () => {
   );
 };
 
-export default LoginBox;
+export default GroupCreateBox;

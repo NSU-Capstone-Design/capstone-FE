@@ -3,18 +3,11 @@ import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
 import { success_check } from '../reducers/account/authenticate';
 import { getProbApi, getProblem } from '../api/problem';
-import { baseApi } from '../api/axiosApi';
 import { Button, makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
 import CodeMirror from '../components/CodeMirror';
 import Typography from '@material-ui/core/Typography';
 import IOExam from '../components/main/IOExam';
-import { getUserLevelProb } from '../reducers/userLevelProb';
-import useModalEvent from '../hooks/useModalEvent';
-import ProbEvaluate from '../components/main/ProbEvaluate';
-import LoadingSpinner from '../components/others/LoadingSpinner';
-import ChangeLevel from '../components/main/ChangeLevel';
-import { increaseLevelApi } from '../api/problem';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
 }));
-const ProblemDetail = ({ history, location, match }) => {
+const ProblemDetail = ({ match }) => {
   const loginState = useSelector((state) => state.account.status);
 
   const dispatch = useDispatch();
@@ -79,12 +72,13 @@ const ProblemDetail = ({ history, location, match }) => {
   }, []);
   const classes = useStyles();
 
-  const ioExamZip = (ioExams = []) => {
+  const ioExamZip = (ioExams) => {
     const ioExamList = [];
     let ioExamSet = {
       input: {},
       output: {},
     };
+    console.log('ioexams', ioExams);
     let map = new Map();
     ioExams &&
       ioExams.map((io, key) => {
@@ -128,6 +122,7 @@ const ProblemDetail = ({ history, location, match }) => {
 
   return (
     <>
+      <Header loginState={loginState} />
       <div className={classes.container}>
         <div className={classes.contentBox}>
           <>
@@ -157,17 +152,26 @@ const ProblemDetail = ({ history, location, match }) => {
                 </tbody>
               </table>
               <div className={classes.head}>문제</div>
-              <Typography className={classes.instructions}>
-                {probd.problem_content}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{
+                  __html: probd.problem_content,
+                }}
+                className={classes.instructions}
+              ></Typography>
               <div className={classes.head}>입력</div>
-              <Typography className={classes.instructions}>
-                {probd.problem_input}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{
+                  __html: probd.problem_input,
+                }}
+                className={classes.instructions}
+              ></Typography>
               <div className={classes.head}>출력</div>
-              <Typography className={classes.instructions}>
-                {probd.problem_output}
-              </Typography>
+              <Typography
+                dangerouslySetInnerHTML={{
+                  __html: probd.problem_output,
+                }}
+                className={classes.instructions}
+              ></Typography>
 
               {ioExamZip(probd.ioexam_set).map((ioexam, index) => (
                 <IOExam ioexam={ioexam} copy={copy} index={index} />

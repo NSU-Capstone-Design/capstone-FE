@@ -47,6 +47,10 @@ const useStyle = makeStyles({
     color: 'white',
     border: 'none',
     outline: 0,
+    '&': {},
+    '&:hover': {
+      backgroundColor: '#cc6d6d',
+    },
   },
   signUpContainer: {
     marginTop: '15px',
