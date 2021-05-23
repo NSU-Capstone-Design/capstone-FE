@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, OutlinedInput, makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
 import { check_token, FRONT_BASE_URL } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,6 +51,15 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  searchBox: {
+    marginLeft: '20px',
+    width: '250px',
+    height: '40px',
+  },
+  searchBtn: {
+    marginLeft: '20px',
+    height: '40px',
+  },
 });
 
 function displayedAt(createdAt) {
@@ -83,6 +92,7 @@ const Question = () => {
   const [pageNumber, setPageNumber] = useState(0);
 
   const pageCount = post[0].total_page;
+  const $searchKeyword = document.getElementById('searchKeyword');
 
   useEffect(async () => {
     await baseApi
@@ -114,10 +124,18 @@ const Question = () => {
   });
 
   const changePage = async ({ selected }) => {
+    if (typeof selected === 'undefined') {
+      selected = '0';
+    }
+    let requestURL = '/question/getlist/?page=' + (parseInt(selected) + 1);
+
+    let keyword = $searchKeyword.value;
+    if (keyword) {
+      requestURL += '&keyword=' + keyword;
+    }
+
     setPost([{ total_page: 0 }]);
-    await baseApi
-      .get('/question/getlist/?page=' + (parseInt(selected) + 1))
-      .then(({ data }) => setPost(data));
+    await baseApi.get(requestURL).then(({ data }) => setPost(data));
     setPageNumber(selected);
   };
 
@@ -154,6 +172,22 @@ const Question = () => {
             onPageChange={changePage}
             containerClassName={classes.paginationBttns}
           />
+          <div id="searchArea">
+            <OutlinedInput
+              placeholder="검색어"
+              id="searchKeyword"
+              color="primary"
+              className={classes.searchBox}
+            />
+            <Button
+              color="secondary"
+              variant="contained"
+              className={classes.searchBtn}
+              onClick={changePage}
+            >
+              검색
+            </Button>
+          </div>
         </div>
       </div>
     </>
