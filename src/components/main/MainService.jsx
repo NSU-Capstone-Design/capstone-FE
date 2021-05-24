@@ -177,12 +177,14 @@ export default function () {
               <table style={{ margin: '20px 0px' }}>
                 <thead>
                   <tr>
+                    <th style={{ width: '100px' }}>문제 번호</th>
                     <th style={{ width: '100px' }}>시간 제한</th>
                     <th style={{ width: '100px' }}>메모리 제한</th>
                   </tr>
                 </thead>
                 <tbody className={classes.tbody}>
                   <tr>
+                    <td>{problem.prob_num} </td>
                     <td>{problem.timeout} </td>
                     <td>{problem.memory_limit} </td>
                   </tr>

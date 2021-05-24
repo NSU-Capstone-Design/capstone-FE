@@ -78,6 +78,7 @@ const Search = () => {
     await baseApi.get('/problem/').then(({ data }) => setProb(data));
   }, []);
 
+  const [searchValue, setSearchValue] = useState('');
   const [pageNumber, setPageNumber] = useState(0);
   const probsPerPage = 10;
   const pagesVisited = pageNumber * probsPerPage;
@@ -103,6 +104,9 @@ const Search = () => {
   const pageCount = Math.ceil(prob.length / probsPerPage);
 
   const searchKeyword = document.getElementById('searchKeyword');
+  const searchValueHandler = (event) => {
+    setSearchValue(event.target.value.match(/[0-9]*/)[0]);
+  };
   const changePage = async ({ selected }) => {
     if (typeof selected === 'undefined') {
       selected = '0';
@@ -145,10 +149,12 @@ const Search = () => {
         />
         <div className={classes.probSearch}>
           <OutlinedInput
-            placeholder="검색어"
+            placeholder="문제 번호로만 검색이 가능합니다."
             id="searchKeyword"
             color="primary"
             className={classes.probSearchBox}
+            value={searchValue}
+            onChange={searchValueHandler}
           />
           <Button
             color="secondary"
