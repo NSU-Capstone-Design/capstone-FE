@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { Button, OutlinedInput, makeStyles } from '@material-ui/core';
 import Header from '../components/Header';
 import { check_token } from '../api/account';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,6 +40,22 @@ const useStyles = makeStyles({
   },
   probHeader: {
     position: 'static',
+  },
+  probMenu: {
+    margin: '20px 20px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  probSearchBox: {
+    marginLeft: '20px',
+    width: '250px',
+    height: '40px',
+  },
+  probSearchBtn: {
+    marginLeft: '20px',
+    height: '40px',
   },
 });
 
@@ -85,13 +101,26 @@ const Search = () => {
       );
     });
   const pageCount = Math.ceil(prob.length / probsPerPage);
-  const changePage = ({ selected }) => {
+
+  const searchKeyword = document.getElementById('searchKeyword');
+  const changePage = async ({ selected }) => {
+    if (typeof selected === 'undefined') {
+      selected = '0';
+    }
+    let requestURL = '/problem/?prob_num=';
+    let keyword = searchKeyword.value;
+    if (keyword) {
+      requestURL += keyword;
+    }
+
+    await baseApi.get(requestURL).then(({ data }) => setProb(data));
     setPageNumber(selected);
   };
 
   return (
     <>
       <Header loginState={loginState} />
+
       <TableContainer component={Paper} style={{ marginTop: '60px' }}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead className={classes.tableHead}>
@@ -106,13 +135,31 @@ const Search = () => {
           <TableBody>{displayProbs}</TableBody>
         </Table>
       </TableContainer>
-      <ReactPaginate
-        previousLabel={'이전'}
-        nextLabel={'다음'}
-        pageCount={pageCount}
-        onPageChange={changePage}
-        containerClassName={classes.paginationBttns}
-      />
+      <div className={classes.probMenu}>
+        <ReactPaginate
+          previousLabel={'이전'}
+          nextLabel={'다음'}
+          pageCount={pageCount}
+          onPageChange={changePage}
+          containerClassName={classes.paginationBttns}
+        />
+        <div className={classes.probSearch}>
+          <OutlinedInput
+            placeholder="검색어"
+            id="searchKeyword"
+            color="primary"
+            className={classes.probSearchBox}
+          />
+          <Button
+            color="secondary"
+            variant="contained"
+            className={classes.probSearchBtn}
+            onClick={changePage}
+          >
+            검색
+          </Button>
+        </div>
+      </div>
     </>
   );
 };
